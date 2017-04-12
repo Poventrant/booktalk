@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head> 		
+    <link rel='stylesheet' href='/stylesheets/style.css' /> 
+    <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.css">  
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.css ">  
+
+    <meta name='description' content='<%= config.description %>'>
+	  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	  <meta name="keywords" content="<%= config.keywords %>"/>
+    
+	  <% if (typeof(pageTitle) !== 'undefined') { %>
+	  <title><%= pageTitle %> - <%= config.name %></title>
+	  <% } else { %>
+	  <title><%= config.description %></title>
+	  <% } %>
+
+  </head> 
+  <body>
+
+<%- include nav %>

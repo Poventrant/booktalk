@@ -1,0 +1,84 @@
+<%- include ../templ/header %>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-8 column">
+					<div class="panel panel-default">
+						<div class='panel-body'> 
+              <span class="page-header"><h3><%= book.name %>&nbsp;<small><%= book.subtitle%></small></h3></span>
+            </div>
+            <div class='panel-body' >  
+            	<img src="/images/book.jpg" style="width: 107px;"></img>
+              <ul class="text-muted"> 
+                <li>
+                  作者:<% book.author.forEach(function(name){ %>
+                  	<%= name %>
+                  <% });  %> 
+                </li> 
+                <li>
+                  出版时间:<%= book.pubdate %>
+                </li>   
+                <li>
+                  出版社:<%= book.publisher %>
+                </li>          
+              </ul>
+            </div>  
+						<div class="panel-body" style="background: red">
+							<h4>简介</h4>
+							<%= book.summary %>
+							待完成
+						</div> 
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<ul class="nav nav-pills"> 
+								<li class="active">
+									 <a href="#panel-1" data-toggle="tab">书评 </a>
+								</li>
+								<li >
+									 <a href="#panel-2" data-toggle="tab">书单</a>
+								</li>
+								<li style="display: none;">
+									 <a href="#panel-3" data-toggle="tab">书籍</a>
+								</li>
+							</ul>
+						</div>
+						<div class="panel-body">
+							<div class="tab-content">
+								<div class="tab-pane active" id="panel-1"> 
+									<%- include ../topic/list %>  
+								</div>
+								<div class="tab-pane " id="panel-2"> 
+									<%- include ../topic/list %>  
+								</div>
+								<div class="tab-pane " id="panel-3">
+									<p>
+										3借书
+									</p>
+								</div>
+							</div>
+						</div> 
+					</div>  
+				</div>
+				<div class="col-md-4 column">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								编辑
+							</h3>
+						</div>
+						<div class="panel-body">
+							<input type="submit" name="change" class="btn btn-primary" value="我要编辑" />
+						</div> 
+					</div> 
+			</div> 
+		</div>
+	</div>
+</div>
+
+
+
+<%- include ../templ/footer %>
+

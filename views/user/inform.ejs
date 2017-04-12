@@ -1,0 +1,47 @@
+<%- include ../templ/header %>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-8 column">  
+
+				  <div class='panel panel-default' >
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 未读通知
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' >  
+				    	<% if (typeof(messages_unread) !== 'undefined' && messages_unread.length > 0) { %>
+				    		<% messages_unread.forEach(function(message){ %>
+									<% include message_item %>
+								<% }) %> 
+					    <% } else { %> 
+					      <div><p>无通知</p> </div> 
+					    <% } %>
+					  </div>		  
+					</div>  
+					<div class='panel panel-default' >
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 已读通知
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' >  
+				    	<% if (typeof(messages_readed) !== 'undefined' && messages_readed.length > 0) { %>
+				    		<% messages_readed.forEach(function(message){ %>
+									<% include message_item %>
+								<% }) %> 
+					    <% } else { %> 
+					      <div><p>无通知</p> </div> 
+					    <% } %>
+					  </div>  
+					</div>  
+		</div>
+	</div>
+</div> 
+</div>
+</div>
+ 
+<%- include ../templ/footer %>

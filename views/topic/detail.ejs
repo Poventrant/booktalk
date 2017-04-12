@@ -1,0 +1,106 @@
+<%- include ../templ/header %>
+
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <div class="row clearfix">
+        <div class="col-md-8 column"> 
+          <div class='panel panel-default'>
+            <div class='panel-body'> 
+              <span class="page-header"><h3><%= topic.title %></h3></span>
+              <ul class="text-muted list-inline">
+                <li>
+                  类型:<%= config.topic_types[topic.type] %>
+                </li>
+                
+                <li>
+                  作者:<a href="/user/<%= topic.author.name %>" ><%= topic.author.name %></a>
+                </li>
+                <li>
+                  <%= topic.cnt_visit %> 次浏览
+                </li>
+                <li>
+                  发布时间:<%= topic.create_at %>
+                </li>           
+              </ul>
+            </div>  
+            <div class='panel-body' style=" border-top: 1px solid #e5e5e5; background: red"> 
+              帖子正文待完成
+            </div>
+          </div>
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                回复
+              </h3> 
+            </div>  
+            <div class='panel-body'> 
+              <% if (topic.reply && topic.reply.length > 0) { %>
+                <% topic.reply.forEach(function(reply,index){ %>
+                <% include ../reply/item %>
+                <% }) %>
+              <% } else{ %>
+              <p>暂无回复</p>
+              <% }%>
+            </div>
+          </div> 
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                 添加回复
+              </h3> 
+            </div>  
+            <div class='panel-body' style="background: red"> 
+                fuck
+            </div>
+          </div> 
+        </div>  
+        <div class="col-md-4 column">
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                 作者信息
+              </h3> 
+            </div>  
+            <div class='panel-body'> 
+                <h4><img src="/images/avatar.jpg" /><a class="text-muted" href="/user/<%= topic.author.account %>"> <%= topic.author.name %></a></h4>
+                个性签名:<em>『<%= topic.author.signature %>』</em> 
+            </div>
+          </div>
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                <%= config.topic_types[topic.type] %>
+              </h3> 
+            </div>  
+            <div class='panel-body'> 
+              <% if(topic.books && topic.books.length>0){ %>
+              <%  topic.books.forEach(function(book ){ %>
+                  <h4><a class="label label-primary"><i class="fa fa-tags"></i> <%= book.name%></a></h4> 
+              <%   }); }; %>
+            </div>
+          </div>   
+
+          <% if(topic.type == 3) { %>
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                借书信息
+              </h3> 
+            </div>  
+            <div class='panel-body'> 
+              <% if(topic.isValid){ %>
+              <p>消息已过期</p>
+              <% }else{ %>
+                <%= topic.addition %> 
+              <% } %> 
+            </div>
+          </div>  
+          <% } %>
+
+        </div> 
+    </div>
+  </div>
+</div> 
+ 
+<%- include ../templ/footer %>

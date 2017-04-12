@@ -1,0 +1,20 @@
+<div > 
+  <div >
+  	<img src="/images/book.jpg" style="width: 107px;"></img>
+    <ul class="list-unstyled  text-muted"> 
+    	<li><a href=""><%=book.name%></a></li>
+      <li>
+        作者:<% book.author.forEach(function(name){ %>
+        	<%= name %>
+        <% });  %> 
+      </li> 
+      <li>
+        出版时间:<%= book.pubdate %>
+      </li>   
+      <li>
+        出版社:<%= book.publisher %>
+      </li>          
+    </ul>
+	</div> 
+
+</div>

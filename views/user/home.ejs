@@ -1,0 +1,104 @@
+<%- include ../templ/header %>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-8 column"> 
+				  <div class='panel panel-default'>
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 <span class="glyphicon glyphicon-home"></span>　<%= user.name%> 的主页
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' > 
+				    	<div style="background: green">
+				    		<p>有图标的话会放一个图标</p>
+				    		<strong><%= user.name %> </strong>
+				    	</div>
+				    	<div>
+				    		<ul class="list-unstyled">
+				    			<% if (user.wechat){ %>
+				    			<li>
+				    				<i class="fa fa-lg fa-fw fa-wechat"></i>
+            				 <%= user.wechat %> 
+				    			</li>
+				    			<% } %>
+				    			<% if (user.QQ){ %>
+				    			<li>
+				    				<i class="fa fa-lg fa-fw fa-qq"></i>
+            				 <%= user.QQ %> 
+				    			</li>
+				    			<% } %>
+				    			<% if (user.email){ %>
+				    			<li>
+				    				<i class="fa fa-lg fa-fw fa-envelope-square"></i>
+            				 <%= user.email %> 
+				    			</li>
+				    			<% } %> 
+				    			<% if (user.address){ %>
+				    			<li> 
+				    				<i class="fa fa-lg fa-fw fa-map-marker"></i>
+            				 <%= user.address %> 
+				    			</li>
+				    			<% } %> 
+				    			
+				    		</ul>
+				    		<div>
+					    		<% if (user.signature){ %> 
+					    			<div>个性签名:</div>
+	            			<p class="text-justify"><%= user.signature %></p>  
+				    			<% } %> 				    			
+				    		</div>
+			    		</div>
+			    		<div>
+			    			<p class="text-muted">注册时间 <%= user.create_at %></p>
+		    			</div> 
+				    </div>
+				  </div>
+				  <div class='panel panel-default' style="display: none">
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 最近借入的书籍
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' > 
+				    	<p>无</p>
+				    </div>
+				  </div>		
+				  <div class='panel panel-default' style="display: none" >
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 最近借出的书籍
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' > 
+				    	<p>无</p>
+				    </div>
+				  </div>	
+				  <div class='panel panel-default' style="display: none">
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 最近发表的帖子
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' > 
+				    	<p>无帖子</p>
+				    </div>
+				  </div>				  
+				  <div class='panel panel-default' style="display: none">
+				    <div class='panel-heading'>
+				    	<h4 class="panel-title">
+				    		 最近参与的帖子
+				    	</h4> 
+				    </div>  
+				    <div class='panel-body' > 
+				    	<p>无帖子</p>
+				    </div>
+				  </div>			  	
+				</div>  
+		</div>
+	</div>
+</div> 
+ 
+<%- include ../templ/footer %>

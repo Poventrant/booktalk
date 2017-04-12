@@ -1,0 +1,33 @@
+<div>
+<span>
+<% if(message.type == 'reply'){ %> 
+	<a href="/user/<%= message.reply_author.account %>" target='_blank'><%= message.reply_author.name %></a>
+	回复了你的帖子
+	<a href="/topic/<%- message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
+    message.topic.title %></a> 
+<% } %>
+
+<% if(message.type == 'reply2'){ %> 
+	<a href="/user/<%= message.reply_author.account %>" target='_blank'><%= message.reply_author.name %></a>
+	在帖子
+	<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
+    message.topic.title %></a>
+	中回复了你的回复 
+<% } %>
+
+<% if(message.type == 'follow'){ %> 
+	<a href="/user/<%= message.reply_author.account %>" target='_blank'><%= message.reply_author.name %></a>
+	关注了你 
+<% } %>
+
+<% if (message.type == 'at'){ %> 
+	<a href="/user/<%= message.reply_author.account %>" target='_blank'><%= message.reply_author.name %></a>
+	在帖子
+	<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
+    message.topic.title %></a>
+	中@了你 
+<% } %>
+
+<small class="pull-right text-muted"><%= message.create_at %></small>
+</span>
+</div>
