@@ -1,7 +1,7 @@
 var express = require('express');
 var config  = require('../config');
 var router = express.Router();
-
+ 
 /**
  * 假数据 begin
  */
@@ -297,7 +297,7 @@ router.get('/book/detail', function(req, res, next) {
   });
 });
 router.get('/book/create', function(req, res, next) {
-  res.render('book/add', { 
+  res.render('book/edit', { 
     config: config,
     book : book1,
     topics: topics,

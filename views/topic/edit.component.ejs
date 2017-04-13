@@ -1,0 +1,74 @@
+<form role="form" class="form-horizontal" action='/' method='get' >  
+	<div class="form-group"> 
+		<label class="control-label col-sm-2 ">类型:</label> 
+  	<div class="col-sm-4">
+  		<select class="form-control " id="type_value">
+        <option value="">请选择</option>
+        <% var typeValue = '';
+          if (typeof(topic) !== 'undefined') {
+            typeValue = topic.type;
+          } 
+          config.topic_types.forEach(function (type,index) {
+            var value = index;
+            var text = type; %>
+          <option value="<%=value%>" <%= typeValue === value ? 'selected': '' %>><%=text%></option> 
+      <% }); %>
+    	</select>  
+    </div> 
+  </div>
+
+  <div class="form-group">  
+    <label for="book" class="control-label col-sm-2 ">书籍:</label>
+    <div class=" col-sm-4 ">
+      <input type="text" class="form-control" id="book"/> 
+    </div>
+    <div class="col-sm-2">
+      <botton id="add" class="btn btn-info"><a href="" ></a>添加</botton>
+    </div>
+  </div>  
+
+  <div class="form-group" id="valid">  
+    <label for="book" class="control-label col-sm-2 ">有效期:</label>
+    <div class=" col-sm-4 ">
+      <input class="form-control" placeholder="请输入数字，表示天数" /> 
+    </div> 
+  </div>  
+
+  <div class="form-group">  
+  	<label for="title" class="control-label col-sm-2 ">标题:</label>
+  	<div class=" col-sm-10 ">
+  		<input id="title" class="form-control" placeholder="标题字数 10 字以上" 
+      	value="<%= typeof(topic) !== 'undefined' && topic || '' %>" /> 
+    </div>
+  </div> 
+ 
+  
+  <textarea class='editor '  rows='20' ><%= typeof(topic) !== 'undefined' && topic || '' %></textarea>  
+   
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-lg btn-primary">提交</button>
+    </div> 
+  </div>
+</form> 
+
+<script>
+  (function () {
+    var simplemde = new SimpleMDE({ element: $(".editor")[0] }); 
+    $("#add").hide();
+    $("#valid").hide();
+    $("#type_value").on('change',function(){
+      console.log($("#type_value").val() );
+      if( $("#type_value").val() == 0 ){  // 0 是书单
+        $("#add").show();
+      }else{
+        $("#add").hide();
+      }
+      if( $("#type_value").val() == 2 ){  // 0 是书单
+        $("#valid").show();
+      }else{
+        $("#valid").hide();
+      }
+    }) 
+  })();
+</script>

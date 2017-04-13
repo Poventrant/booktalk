@@ -1,4 +1,6 @@
 <%- include ../templ/header %>
+<!-- markdown editor --> 
+<%- include ../includes/editor %>
 
 <div class="container">
   <div class="row clearfix">
@@ -12,89 +14,24 @@
               </h3> 
             </div>  
             <div class='panel-body' style="background: "> 
-        <form role="form" action='/topic/create' method='post'> 
-          <fieldset>
-            <span>选择类型：</span>
-            <select name="type" id="type-value">
-              <option value="">请选择</option>
-              <% var typeValue = '';
-                if (typeof(topic) !== 'undefined') {
-                  typeValue = topic.type;
-                } 
-                config.topic_types.forEach(function (type,index) {
-                  var value = index;
-                  var text = type; %>
-                  <option value="<%=value%>" <%= typeValue === value ? 'selected': '' %>><%=text%></option> 
-              <% }); %>
-            </select>
-            <span ></span>
-            <textarea 
-              autofocus 
-              class='span9' id='title' 
-              name='title' rows='1'
-              placeholder="标题字数 10 字以上">
-              <%= typeof(topic) !== 'undefined' && topic || '' %></textarea>
-
- 
-
-            <div class='markdown_editor in_editor'>
-              <div class='markdown_in_editor'>
-                <textarea class='editor' name='t_content' rows='20'
-                          placeholder='文章支持 Markdown 语法, 请注意标记代码'
-                        ><%= typeof(topic) !== 'undefined' && topic || '' %></textarea>
-
-                <div class='editor_buttons'>
-                  <input type="submit" class='span-primary submit_btn' data-loading-text="提交中"
-                         value="提交">
-                </div>
-              </div>
-
-            </div>
-
-          </fieldset>
-        </form> 
+              <%- include('edit.component.ejs') %>
             </div>
           </div>
+        </div> 
+        <div class="col-md-4 column"> 
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                 注意事项
+              </h3> 
+            </div>  
+            <div class='panel-body'  > 
+                不要乱写哦
+            </div>
+          </div> 
         </div>  
     </div>
   </div>
 </div>  
-
-<!-- markdown editor --> 
-<%- include ../includes/editor %>
-
-<script>
-  (function () {
-    var editor = new Editor();
-    editor.render($('.editor')[0]);
-
-    // // 版块选择的检查，必须选择
-    // $('#create_topic_form').on('submit', function (e) {
-    //   var tabValue = $('#tab-value').val();
-    //   if (!tabValue) {
-    //     alert('必须选择一个版块！');
-    //     $('.submit_btn').button('reset');
-    //     $('.tab-selector').css('color', 'red');
-    //     return false;
-    //   }
-    // });
-    // // END 版块选择的检查，必须选择
-
-    // // 选择招聘版块时，给出提示
-    // $('#tab-value').on('change', function () {
-    //   var $this = $(this);
-    //   var value = $this.val();
-    //   var warnMsg = '';
-    //   if (value === 'job') {
-    //     warnMsg = '<strong>为避免被管理员删帖，发帖时请好好阅读<a href="http://cnodejs.org/topic/541ed2d05e28155f24676a12" target="_blank">《招聘帖规范》</a></strong>';
-    //   } else if (value === 'ask') {
-    //     warnMsg = '<strong>提问时，请遵循 <a href="https://gist.github.com/alsotang/f654af8b1fff220e63fcb44846423e6d" target="_blank">《提问的智慧》</a>中提及的要点，以便您更接收到高质量回复。</strong>'
-    //   }
-    //   $('#topic_create_warn').html(warnMsg);
-    // });
-    // // END 选择招聘版块时，给出提示
-    
-  })();
-</script>
  
 <%- include ../templ/footer %>

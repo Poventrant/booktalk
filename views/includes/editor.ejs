@@ -1,7 +1,13 @@
-<%- Loader()
-.js('/libs/editor/editor.js')
-.js('/libs/webuploader/webuploader.withoutimage.js')
-.js('/libs/markdown-it/dist/markdown-it.js')
-.js('/libs/editor/ext.js')
+<%- 
+// Loader()
+// .js('/libs/editor/editor.js')
+// .js('/libs/webuploader/webuploader.withoutimage.js')
+// .js('/libs/markdown-it/dist/markdown-it.js')
+// .js('/libs/editor/ext.js')
+// .done( )
+	Loader()
+.js('https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+.css('https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css') 
 .done( )
 %>
+ 

@@ -1,79 +1,35 @@
-<form action="/book/add" method="POST"  >
-	<div style="display:none;"><input type="hidden" name="ck" value="kU7q"></div>
+<%- include ../templ/header %>
 
-  <fieldset>
-<div class="item basic"><label for="p_2">书名</label>
-<input type="text" id="p_2" name="p_2" class="input_basic modified" maxlength="256" autocomplete="off">
-<span class="tip">书名只应填写正标题，副标题填在下栏</span></div>
-<div class="item basic"><label for="p_42">副标题</label>
-<input type="text" id="p_42" name="p_42" value="" class="input_basic" maxlength="256" autocomplete="off"></div>
-<div class="item basic"><label for="p_98">原作名</label>
-<input type="text" id="p_98" name="p_98" value="" class="input_basic" maxlength="256" autocomplete="off"></div>
-<div class="item basic"><label for="p_9">ISBN</label>
-<input type="text" id="p_9" name="p_9" value="" class="input_basic locked" readonly="readonly"></div>
-<div class="item list"><label for="p_5">作者</label>
-<ol>
-	<li><input type="text" id="p_5_0" name="p_5" class="input_basic " maxlength="256" autocomplete="off">
- 		<span class="tip">如 [英] J. K. 罗琳</span></li>
-  <li><input type="text" id="p_5_1" name="p_5" class="input_basic " maxlength="256" autocomplete="off"></li>
-  <li><input type="text" id="p_5_2" name="p_5" class="input_basic " maxlength="256" autocomplete="off"></li>
-  <li><input type="text" class="input_basic" id="p_5_3" name="p_5" maxlength="256">&nbsp;</li>
-  <li><input type="text" class="input_basic" id="p_5_4" name="p_5" maxlength="256">&nbsp;<a href="" class="add">+</a></li>
-</ol>
-</div>
-
-<div class="item list"><label for="p_41">译者</label>
-<ol>
-	<li><input type="text" id="p_41_0" name="p_41" class="input_basic " maxlength="256" autocomplete="off"></li>
-  <li><input type="text" id="p_41_1" name="p_41" class="input_basic " maxlength="256" autocomplete="off"><a href="" class="add">+</a></li>
-</ol>
-</div>
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <div class="row clearfix">
+        <div class="col-md-8 column">  
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                 添加书籍
+              </h3> 
+            </div>  
+            <div class='panel-body'  >  
+              <%- include('edit.component.ejs')%> 
+            </div>
+          </div> 
+        </div>
+        <div class="col-md-4 column"> 
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                 注意事项
+              </h3> 
+            </div>  
+            <div class='panel-body'  > 
+                不要乱写哦
+            </div>
+          </div> 
+        </div>   
+    </div>
+  </div>
+</div> 
  
-
-<div class="item basic"><label for="p_6">出版社</label>
-<input type="text" id="p_6" name="p_6" value="" class="input_basic" maxlength="256" autocomplete="off">
-<span class="tip">如 生活·读书·新知三联书店</span>
-</div>
-
-<div class="item date"><label for="p_7">出版日期</label>
-<input type="text" id="p_6" name="p_6" value="" class="input_basic" maxlength="256" autocomplete="off">
-<span class="tip">如 20170412</span>
-</div>
- 
-<div class="item basic"><label for="p_10">页数</label>
-<input type="text" id="p_10" name="p_10" value="" class="input_basic brief" maxlength="256" autocomplete="off">页
-</div> 
-   
-<div class="item text section"><label for="p_3">内容简介</label> 
-<div class="text-con unique">
-  <textarea name="p_3_other" class="textarea_basic"></textarea>
-</div> 
-</div>
-
-    
-  
-<div class="item text section"><label for="p_40">作者简介</label>
-<div class="text-con unique">
-  <textarea name="p_40_other" class="textarea_basic"></textarea>
-</div> 
-</div>
-
-    
-<div class="item text section"><label for="p_99">目录</label>
-<div class="text-con unique">
-  <textarea name="p_99_other" class="textarea_basic"></textarea>
-</div>
-</div>
-
-<div class="submit-item">
-  <input name="cat" type="hidden" value="1001">
-  <input name="p_uid" type="hidden" id="uid" value="7510093430">
-  <input type="hidden" name="search_text" value="知名不具">
-  <p>
-    <input type="submit" name="detail_subject_submit" value="下一步" class="btn btn-primary">
-    <a href="/">取消</a>
-  </p>
-</div>
-
-  </fieldset>
-</form>
+<%- include ../templ/footer %>

@@ -24,28 +24,4 @@
   <div class="text-right reply_info">
   	<a class="reply_time" href="#<%= reply._id %>"><%= index + 1 %> 楼 • <%= reply.create_at %></a>
   </div>
-
-  <div class='clearfix' style="background: red">
-    <div class='reply2_area'>
-      <% if (current_user) { %>
-      <form class='reply2_form' action='/<%= topic._id %>/reply' method='post'> 
-        <input type='hidden' name='reply_id' value='<%= reply._id %>'/>
-
-        <div class='markdown_editor in_editor'>
-          <div class='markdown_in_editor'>
-            <textarea class='span8 editor reply_editor'
-                      id="reply2_editor_<%= reply._id %>" name='r_content' rows='4'></textarea>
-
-            <div class='editor_buttons'>
-              <input class='span-primary reply2_submit_btn submit_btn'
-                     type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
-            </div>
-          </div>
-
-        </div>
-
-      </form>
-      <% } %>
-    </div>
-  </div>
 </div>
