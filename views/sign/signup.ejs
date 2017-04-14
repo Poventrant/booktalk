@@ -9,22 +9,45 @@
 				    	<h3 class="panel-title">注册</h3> 
 				    </div>  
 				    <div class='panel-body'> 
-				    	<div class="row clearfix">
-							<div class="col-md-4 column">
-					    <form role="form">
-							<div class="form-group">
-								 <label for="account">账号</label><input type="text" class="form-control" id="account" />
-							</div>
-							<div class="form-group">
-								 <label for="password">密码</label><input type="password" class="form-control" id="password" />
-							</div> 
-							<div class="form-group">
-								 <label for="password2">确认密码</label><input type="password" class="form-control" id="password2" />
-							</div>  
-							<button type="submit" class="btn btn-primary ">注册</button> 
-							</form> 
-							</div>
-							</div>
+				    	<div class="alert alert-danger" id="front_end_alert">
+				    	    <a href="#" class="close" id="close">&times;</a>
+				        <strong id="alert_content"></strong>
+				      </div>
+				     	<% if (typeof(error) !== 'undefined' && error) { %>
+		          <div class="alert alert-danger">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= error %></strong>
+				      </div>
+				      <% }  %>
+				     	<% if (typeof(success) !== 'undefined' && success) { %>
+		          <div class="alert alert-success">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= success %></strong>
+				      </div>
+				      <% }  %>
+					    <form id="signup_form" role="form" class="form-horizontal" method="POST" action="/signup">
+								<div class="form-group">
+									 <label for="account" class="col-sm-2 control-label">账号</label>
+									 <div class="col-sm-6 "><input type="text" name="account" class="form-control" id="account" /></div> 
+								</div>
+								<div class="form-group">
+									 <label for="name" class="col-sm-2 control-label">用户名</label>
+									 <div class="col-sm-6 "><input type="text" name="name" class="form-control" id="name" /></div> 
+								</div>
+								<div class="form-group"> 
+									 <label for="password" class="col-sm-2 control-label">密码</label>
+									 <div  class="col-sm-6 "><input type="password" name="password" class="form-control" id="password" /></div>
+								</div>
+								<div class="form-group"> 
+									 <label for="password2" class="col-sm-2 control-label">确认密码</label>
+									 <div  class="col-sm-6 "><input type="password" name="password2" class="form-control" id="password2" /></div>
+								</div> 
+							  <div class="form-group">
+							    <div class="col-sm-offset-2 col-sm-10">
+							      <button type="submit" class="btn btn-primary">注册</button>
+							    </div>
+							  </div> 
+							</form>    
 				    </div>
 				  </div>
 				</div>  					
@@ -34,3 +57,68 @@
 </div> 
  
 <%- include ../templ/footer %>
+
+<script type="text/javascript">
+ 	// 正则表达式
+	var pname 		= /^[A-Za-z0-9_\u4e00-\u9fa5]{2,10}$/;
+	var paccount 	= /^[A-Za-z0-9_]{6,13}$/;
+	var ppassword = /^[A-Za-z0-9_]{6,13}$/;
+	var pblank 		= /^\s$/; 
+	// alert function
+	function alert(str){
+		$('#alert_content').html(str); 
+		$('#front_end_alert').show();
+	} 
+	// init
+	$('#front_end_alert').hide(); 
+	// binding alert-close
+	$('#close').on('click',function(){
+		$('#front_end_alert').hide(); 
+	});
+	// binding submit
+	$('#signup_form').on('submit',function(e){
+		$('#front_end_alert').hide();  
+		var password = $('#password').val() || ' ';
+		var password2 = $('#password2').val() || ' ';
+		var account = $('#account').val() || ' ';
+		var name = $('#name').val() || ' ';
+		// check account   
+		if(pblank.test(account)){
+			alert('账号不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		} 
+		if(!paccount.test(account) ){
+			alert('账号不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;
+		} 
+		// check name
+		if(pblank.test(name)){
+			alert('用户名不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		}
+		if(!pname.test(name)){
+			alert('用户名不合法,请输入长度在2到10之间的汉字、数字和字母的组合');
+			return false;
+		} 
+		// check password
+		if(pblank.test(password)){
+			alert('密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		}
+		if(pblank.test(password2)){
+			alert('重复密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		}
+		if(password != password2){
+			alert('密码前后不一致');
+			return false;
+		}
+		if(!ppassword.test(password)){
+			alert('密码不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;
+		}
+
+		return true;
+	});
+
+</script>

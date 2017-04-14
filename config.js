@@ -13,15 +13,37 @@ var config = {
   keywords: 'nodejs, node, express, connect, socket.io, book',
   about:"一借一还，一本书可以做两次接触的借口，而且不着痕迹。",
 
+  secret : {
+    session: 'booktalk_secret',  
+    auth_cookie_name: 'booktalk_secret'
+  },
+  web : {
+    host: 'localhost',
+    port: 3000,
+    db: 'mongodb://127.0.0.1/booktalk'
+  },
+  redis : {
+    host: '127.0.0.1',
+    port: 6379,
+    db: 0,
+    password: '' 
+  },
+
   //  web_info_config
-  cnt_main_books  : 10,  // 主页 每页显示书籍数
-  cnt_main_lists  : 20,  // 主页 每页显示帖子数
-  cnt_search_books: 10,  // 搜索  
-  cnt_search_lists: 20,  // 搜索  
-  cnt_book_books  : 5 ,  // 书籍
-  cnt_book_lists  : 10,  // 书籍 
-  home_types : ['书评','书单','书籍'], 
-  topic_types:['书评','书单','出借'],
+  cnt : {
+    main_books  : 10,  // 主页 每页显示书籍数
+    main_lists  : 20,  // 主页 每页显示帖子数
+    search_books: 10,  // 搜索  
+    search_lists: 20,  // 搜索  
+    book_books  : 5 ,  // 书籍
+    book_lists  : 10,  // 书籍    
+  },
+  types : {
+    home : ['书评','书单','书籍'], 
+    topic : ['书评','书单','出借'],
+  }
+
+
 }
 
 module.exports = config;

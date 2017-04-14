@@ -2,6 +2,10 @@ var express = require('express');
 var config  = require('../config');
 var router = express.Router();
  
+// require controllers
+var sign = require('../controllers/sign');
+
+
 /**
  * 假数据 begin
  */
@@ -318,24 +322,15 @@ router.get('/', function(req, res, next) {
   });
 });
 
+ 
+// sign 
+router.get('/signin', sign.getsignin); 
+router.get('/signup', sign.getsignup);
+router.post('/signin',sign.signin);
+router.post('/signup',sign.signup);
 
 
-
-// 个人 
-router.get('/signin', function(req, res, next) {
-  res.render('sign/signin', { 
-    config: config,
-    current_user: current_user
-  });
-});
-
-router.get('/signup', function(req, res, next) {
-  res.render('sign/signup', { 
-    config: config,
-    current_user: current_user
-  });
-});
-
+// user
 router.get('/setting', function(req, res, next) {
   res.render('user/setting', { 
     config: config, 
