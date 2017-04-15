@@ -8,7 +8,7 @@
           if (typeof(topic) !== 'undefined') {
             typeValue = topic.type;
           } 
-          config.topic_types.forEach(function (type,index) {
+          config.types.topic.forEach(function (type,index) {
             var value = index;
             var text = type; %>
           <option value="<%=value%>" <%= typeValue === value ? 'selected': '' %>><%=text%></option> 

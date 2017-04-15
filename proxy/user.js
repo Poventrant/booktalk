@@ -1,46 +1,67 @@
-// var models  = require('../models');
-// var User    = models.User;
-// var utility = require('utility');
-// var uuid    = require('node-uuid');
+var utility = require('utility');
+var uuid    = require('node-uuid');
+var eventproxy     = require('eventproxy');
+
+var tools		= require('../common/tools');
+var models  = require('../models');
+var User    = models.User;
 
 exports.newAndSave = function (account, name, password, callback) {
-  // var user     = new User();
-  // user.name    = name;
-  // user.account = account;
-  // user.password= password; 
-
-  // user.save(callback);
-  // console.log("test newAndSave");
-  callback();
-};
-
-exports.findUserByName = function(name, callback){
-	var err = false;
-	var sign = false;
-	if(name == '无问东西'){
-		sign = true;
-	} 
-	callback(err,sign);
+	tools.bhash(password, function (err, passhash) {  
+	  var user = new User({name : name, account : account, password: passhash }); 
+	  user.save(callback); 
+	});
 }
 
-exports.findUserByAccount = function(account, callback){ 
-	var err = false;
-	var sign = false;
-	if(account == 'wuwendongxi'){
-		sign = true;
-	} 
-	callback(err,sign);
+exports.getOneByAccount = function(account, callback){ 
+	User.findOne({account:account},callback);
+}
+exports.getOneByName = function(name, callback){
+	User.findOne({name:name},callback);
+}
+
+exports.getOneByID = function(id, callback){
+	User.findOne({_id:id},callback);
 }
 
 exports.checkAccount = function(account, password, callback){
-	var err = false;
-	var sign = false;
-	var user = {};
-	if(account == "wuwendongxi" && password == "wuwendongxi"){
-		sign = true;
-	}
-	callback(err,sign,user);
+	User.findOne({account:account},function(err, user){
+		tools.bcompare(password, user.password,function(err,bool){
+			if(!bool) user=null;
+			callback(err, user);
+		})
+	}); 
+}  
+
+exports.updatePassword = function(account, oldpass, newpass, callback){ 
+	User.findOne({account:account},function(err, user){  
+		tools.bcompare(oldpass, user.password, function(err,bool){
+			if(!bool){
+				user = null;
+				callback(err, user);
+			}else{
+				tools.bhash(newpass, function (err, passhash) {  
+				  user.password = passhash;
+				  user.save(callback); 
+				}); 				
+			}
+			
+		})
+	});  
 }
 
-
- 
+exports.updateInfo = function(account, wechat, QQ, email, address, signature, callback ){  
+  User.findOneAndUpdate(
+  	{ account:account },
+  	{ $set:{ 
+  			'wechat' : wechat,
+  			'QQ' : QQ,
+  			'email' : email,
+  			'address' : address,
+  			'signature' : signature
+  		} 
+  	},
+  	{new:true},
+  	callback 
+  ); 
+}

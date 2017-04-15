@@ -11,35 +11,72 @@
 				    		 个人信息
 				    	</h3> 
 				    </div>  
-				    <div class='panel-body'  > 
-				    	<div class="row clearfix">
-							<div class="col-md-6 column"> 
-				    	<form role="form" action='/setting' method='post'>
+				    <div class='panel-body'  >
+				    	<div class="alert alert-danger" id="info_alert">
+				    	    <a href="#" class="close" id="info_close">&times;</a>
+				        <strong id="info_alert_content"></strong>
+				      </div>
+				     	<% if (typeof(error) !== 'undefined' && error) { %>
+		          <div class="alert alert-danger">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= error %></strong>
+				      </div>
+				      <% }  %>
+				     	<% if (typeof(success) !== 'undefined' && success) { %>
+		          <div class="alert alert-success">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= success %></strong>
+				      </div>
+				      <% }  %>  
+				    	<form id="info_form" role="form" action='/setting' method='post' class="form-horizontal">
 				    		<div class="form-group">
-									 <label for="account">账号</label><input type="text" class="form-control" id="account" readonly="true" value="<%= current_user.account %>" />
+									 <label for="account" class="col-sm-2 control-label">账号</label>
+									 <div class="col-sm-4">
+									 	<input type="text" name="account" class="form-control" id="account" readonly="true" value="<%= current_user.account %>" />
+									 	</div>
+								</div> 
+								<div class="form-group">
+									<label for="name" class="col-sm-2 control-label">用户名</label>
+									<div class="col-sm-4">
+									 	<input type="text" name="name" class="form-control" id="name" readonly="true" value="<%= current_user.name %>" />
+									 </div>
 								</div>
 								<div class="form-group">
-									 <label for="name">用户名</label><input type="text" class="form-control" id="name" value="<%= current_user.name %>" />
+									<label for="wechat" class="col-sm-2 control-label">微信</label>
+									<div class="col-sm-4">
+										<input type="text" name="wechat" class="form-control" id="wechat" value="<%= current_user.wechat %>" />
+									</div>
 								</div>
 								<div class="form-group">
-									 <label for="wechat">微信</label><input type="text" class="form-control" id="wechat" value="<%= current_user.wechat %>" />
+									<label for="QQ" class="col-sm-2 control-label">QQ</label>
+									<div class="col-sm-4">
+										<input type="text" name="QQ" class="form-control" id="QQ" value="<%= current_user.QQ %>" />
+									</div>
 								</div>
 								<div class="form-group">
-									 <label for="QQ">QQ</label><input type="text" class="form-control" id="QQ" value="<%= current_user.QQ %>" />
+									<label for="email" class="col-sm-2 control-label">邮箱</label>
+									<div class="col-sm-4">
+									<input type="text" name="email" class="form-control" id="email" value="<%= current_user.email %>" />
+									</div>
 								</div>
 								<div class="form-group">
-									 <label for="email">邮箱</label><input type="text" class="form-control" id="email" value="<%= current_user.email %>" />
-								</div>
-								<div class="form-group">
-									 <label for="address">地址</label><input type="text" class="form-control" id="address" value="<%= current_user.address %>" />
+									<label for="address" class="col-sm-2 control-label">地址</label>
+									<div class="col-sm-4">
+									<input type="text" name="address" class="form-control" id="address" value="<%= current_user.address %>" />
+									</div>
 								</div>			
 								<div class="form-group">
-									 <label for="signature ">个性签名</label><textarea class="form-control" id="signature"   ><%= current_user.signature %></textarea>
+									<label for="signature" class="col-sm-2 control-label">个性签名</label>
+									<div class="col-sm-4">
+										<textarea name="signature" class="form-control" id="signature" rows=3 ><%= current_user.signature %></textarea>
+									</div>
 								</div>																
-								<button type="submit" class="btn btn-primary " data-loading-text="保存中..">保存设置</button> 
-							</form> 
-							</div>
-							</div>
+							  <div class="form-group"> 
+							    <div class="col-sm-offset-2 col-sm-10">
+							      <button type="submit" class="btn btn-primary">提交</button>
+							    </div> 
+							  </div>
+							</form>  
 				    </div>
 				  </div>
 				  <div class='panel panel-default'>
@@ -49,22 +86,47 @@
 				    	</h3> 
 				    </div>  
 				    <div class='panel-body'  > 
-				    	<div class="row clearfix">
-							<div class="col-md-6 column"> 
-				    	<form role="form" action='/change_password' method='post'>
+				    	<div class="alert alert-danger" id="pass_alert">
+				    	    <a href="#" class="close" id="pass_close">&times;</a>
+				        <strong id="pass_alert_content"></strong>
+				      </div>
+				     	<% if (typeof(perror) !== 'undefined' && perror) { %>
+		          <div class="alert alert-danger">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= perror %></strong>
+				      </div>
+				      <% }  %>
+				     	<% if (typeof(psuccess) !== 'undefined' && psuccess) { %>
+		          <div class="alert alert-success">
+		          	<a href="#" class="close" data-dismiss="alert">&times;</a>
+				        <strong><%= psuccess %></strong>
+				      </div>
+				      <% }  %>   
+				    	<form id="pass_form" role="form" action='/change_password' method='post' class="form-horizontal">
 								<div class="form-group">
-									 <label for="old_password">当前密码</label><input type="password" class="form-control" id="old_password" />
+									<label for="oldpass" class="col-sm-2 control-label">当前密码</label>
+									<div class="col-sm-4">
+										<input type="password" name="oldpass" class="form-control" id="oldpass" />
+									</div>
 								</div>
 								<div class="form-group">
-									 <label for="new_password">新密码</label><input type="password" class="form-control" id="new_password" />
+									<label for="newpass" class="col-sm-2 control-label">新密码</label>
+									<div class="col-sm-4">
+										<input type="password" name="newpass" class="form-control" id="newpass" />
+									</div>
 								</div> 
 								<div class="form-group">
-									 <label for="new_password2">确认密码</label><input type="password" class="form-control" id="new_password2" />
-								</div> 	  
-								<button type="submit" class="btn btn-primary " data-loading-text="更改中..">更改密码</button> 
-							</form> 
-							</div>
-							</div>
+									<label for="newpass2" class="col-sm-2 control-label">确认密码</label>
+									<div class="col-sm-4">
+										<input type="password" name="newpass2" class="form-control" id="newpass2" />
+									</div>
+								</div> 	   
+								<div class="form-group"> 
+							    <div class="col-sm-offset-2 col-sm-10">
+							      <button type="submit" class="btn btn-primary">更改密码</button>
+							    </div> 
+							  </div> 
+							</form>  
 				    </div>
 				  </div>
 				</div>  
@@ -73,3 +135,102 @@
 </div> 
  
 <%- include ../templ/footer %>
+
+<script type="text/javascript">
+ 	// 正则表达式
+	var pname 		= /^[A-Za-z0-9_\u4e00-\u9fa5]{2,10}$/;
+	var paccount 	= /^[A-Za-z0-9_]{6,13}$/;
+	var ppassword = /^[A-Za-z0-9_]{6,13}$/;
+	var pblank 		= /^\s$/; 
+
+	// alert function
+	function info_alert(str){
+		$('#info_alert_content').html(str); 
+		$('#info_alert').show();
+	} 
+	function pass_alert(str){
+		$('#pass_alert_content').html(str); 
+		$('#pass_alert').show();
+	} 
+	// init
+	$('#info_alert').hide(); 
+	$('#pass_alert').hide(); 
+
+	// binding alert-close
+	$('#info_close').on('click',function(){
+		$('#info_alert').hide(); 
+	});
+	$('#pass_close').on('click',function(){
+		$('#pass_alert').hide(); 
+	});	
+	// 暂时不做检查
+	// $('#info_form').on('submit',function(e){
+	// 	// $('#front_end_alert').hide();  
+	// 	// var wechat = $('#wechat').val() || ' ';
+	// 	// var QQ = $('#QQ').val() || ' ';
+	// 	// var email = $('#email').val() || ' ';   
+	// 	// var address = $('#address').val() || ' '; 
+	// 	// var signature = $('#signature').val() || ' '; 
+
+
+	// 	// check password
+	// 	// if(pblank.test(old_password)){
+	// 	// 	alert('原密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+	// 	// 	return false;			
+	// 	// }
+	// 	// if(!ppassword.test(old_password)){
+	// 	// 	alert('原密码不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+	// 	// 	return false;
+	// 	// }		
+	// 	// if(pblank.test(new_password)){
+	// 	// 	alert('新密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+	// 	// 	return false;			
+	// 	// }
+	// 	// if(new_password != new_password2){
+	// 	// 	alert('新密码前后不一致');
+	// 	// 	return false;
+	// 	// }
+	// 	// if(!ppassword.test(new_password)){
+	// 	// 	alert('新密码不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+	// 	// 	return false;
+	// 	// }		
+
+	// 	return true;
+	// });
+
+	// binding submit
+	$('#pass_form').on('submit',function(e){
+		$('#pass_alert').hide();  
+		var oldpass = $('#oldpass').val() || ' ';
+		var newpass = $('#newpass').val() || ' ';
+		var newpass2 = $('#newpass2').val() || ' ';   
+		// check password
+		if(pblank.test(oldpass)){
+			pass_alert('原密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		}
+		if(!ppassword.test(oldpass)){
+			pass_alert('原密码不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;
+		}		
+		if(pblank.test(newpass)){
+			pass_alert('新密码不能为空,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;			
+		}
+		if(newpass != newpass2){
+			pass_alert('新密码前后不一致');
+			return false;
+		}
+		if(!ppassword.test(newpass)){
+			pass_alert('新密码不合法,请输入长度在6到13之间的数字、字母和下划线的组合');
+			return false;
+		}
+		if(oldpass == newpass){
+			pass_alert('新密码不能与旧密码相同');
+			return false;			
+		}		
+
+		return true;
+	});
+
+</script>

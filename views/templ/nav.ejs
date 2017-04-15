@@ -37,7 +37,7 @@
                   <img src="/images/avatar.jpg">&nbsp;<%= current_user.name %><span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="/home"><i class="fa fa-lg fa-fw fa-user"></i> 主页</a></li> 
+                  <li><a href="/home/<%= current_user.name%>"><i class="fa fa-lg fa-fw fa-user"></i> 主页</a></li> 
                   <li><a href="/inform"><i class="fa fa-lg fa-fw fa-envelope"></i> 通知</a></li> 
                   <li><a href="/setting"><i class="fa fa-lg fa-fw fa-cog"></i> 设置</a></li> 
                   <li role="separator" class="divider"></li>

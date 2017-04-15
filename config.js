@@ -13,9 +13,11 @@ var config = {
   keywords: 'nodejs, node, express, connect, socket.io, book',
   about:"一借一还，一本书可以做两次接触的借口，而且不着痕迹。",
 
-  secret : {
-    session: 'booktalk_secret',  
-    auth_cookie_name: 'booktalk_secret'
+  session : {
+    secret: 'booktalk_secret' 
+  },
+  cookie : {
+    auth_name : 'booktalk_auth_name'
   },
   web : {
     host: 'localhost',
@@ -39,7 +41,7 @@ var config = {
     book_lists  : 10,  // 书籍    
   },
   types : {
-    home : ['书评','书单','书籍'], 
+    home : ['书评','书单','书籍','出借'], 
     topic : ['书评','书单','出借'],
   }
 

@@ -2,8 +2,9 @@ var express = require('express');
 var config  = require('../config');
 var router = express.Router();
  
-// require controllers
-var sign = require('../controllers/sign');
+var auth = require('../middlewares/auth');
+var user = require('../controllers/user');
+
 
 
 /**
@@ -277,78 +278,68 @@ current_user = user1;
 // 查看 帖子
 router.get('/topic/detail', function(req, res, next) {
   res.render('topic/detail', { 
-      config: config,
-      topic: topic, 
-      current_user: current_user 
+      // config: config,
+      topic: topic  
+      // current_user: current_user 
   });
 });
 
 // 发表/编辑 帖子
 router.get('/topic/create', function(req, res, next) {
   res.render('topic/edit', { 
-    config: config, 
-    current_user: current_user
+    // config: config, 
+    // current_user: current_user
   });
 });
 
 // 书籍
 router.get('/book/detail', function(req, res, next) {
   res.render('book/detail', { 
-    config: config,
+    // config: config,
     book : book1,
-    topics: topics,
-    current_user: current_user
+    topics: topics
+    // current_user: current_user
   });
 });
 router.get('/book/create', function(req, res, next) {
   res.render('book/edit', { 
-    config: config,
+    // config: config,
     book : book1,
-    topics: topics,
-    current_user: current_user
+    topics: topics
+    // current_user: current_user
   });
 });
 
 // 主页
 router.get('/', function(req, res, next) {
   res.render('index', { 
-  	config: config,
+  	// config: config,
 	  topics: topics,
 	  current_page: page, 
 	  tops: tops, 
 	  pages: pages, 
-    books:books,
-	  current_user: current_user
+    books:books
+	  // current_user: current_user
   });
 });
 
  
-// sign 
-router.get('/signin', sign.getsignin); 
-router.get('/signup', sign.getsignup);
-router.post('/signin',sign.signin);
-router.post('/signup',sign.signup);
-
-
 // user
-router.get('/setting', function(req, res, next) {
-  res.render('user/setting', { 
-    config: config, 
-    current_user: current_user
-  });
-});
+router.get('/signin'  , user.getsignin); 
+router.get('/signup'  , user.getsignup);
+router.post('/signin' , user.signin);
+router.post('/signup' , user.signup);
+router.get('/signout' , user.signout);
 
-router.get('/home', function(req, res, next) {
-  res.render('user/home', { 
-    config: config, 
-    current_user: current_user,
-    user: current_user
-  });
-});
+router.get('/setting', auth.userRequired, user.getsetting);
+router.post('/setting', auth.userRequired, user.setting);
+router.post('/change_password', auth.userRequired, user.change_password);
+router.get('/home/:name', user.gethomepage);
+
 
 router.get('/inform', function(req, res, next) {
   res.render('user/inform', { 
-    config: config,
+    // config: config,
     topics: topics,
     current_page: page,
     list_topic_count: limit,
@@ -356,7 +347,7 @@ router.get('/inform', function(req, res, next) {
     pages: pages,
     tabs: config.tabs,
     tab: tab,
-    current_user: current_user,
+    // current_user: current_user,
     messages_unread : messages_unread,
     messages_readed : messages_readed,
     user: current_user

@@ -10,7 +10,7 @@
               <span class="page-header"><h3><%= topic.title %></h3></span>
               <ul class="text-muted list-inline">
                 <li>
-                  类型:<%= config.topic_types[topic.type] %>
+                  类型:<%= config.types.topic[topic.type] %>
                 </li>
                 
                 <li>
@@ -70,7 +70,7 @@
           <div class='panel panel-default'>
             <div class='panel-heading'>
               <h3 class="panel-title">
-                <%= config.topic_types[topic.type] %>
+                <%= config.types.topic[topic.type] %>
               </h3> 
             </div>  
             <div class='panel-body'> 
