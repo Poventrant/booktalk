@@ -1,7 +1,8 @@
 var mongoose  = require('mongoose'); 
+var Schema    = mongoose.Schema;
 
 var BaseModel = require("./base"); 
-var Schema    = mongoose.Schema;
+
 
 var UserSchema = new Schema({
   account: { type: String},
