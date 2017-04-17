@@ -11,8 +11,8 @@ require('./topic');
 require('./reply'); 
 require('./message');
 
-exports.User       = mongoose.model('User');
-exports.Book       = mongoose.model('Book');
-exports.Topic        = mongoose.model('Topic');
-exports.Reply        = mongoose.model('Reply'); 
-exports.Message      = mongoose.model('Message');
+exports.User   	= mongoose.model('User');
+exports.Book    = mongoose.model('Book');
+exports.Topic   = mongoose.model('Topic');
+exports.Reply   = mongoose.model('Reply'); 
+exports.Message = mongoose.model('Message');

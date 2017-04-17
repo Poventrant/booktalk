@@ -15,9 +15,10 @@ var config = require('./config');
 
 // require router
 var indexRouter = require('./routes/index');
-var users = require('./routes/users');
+var usersRouter = require('./routes/users');
 // require middlewares
-var auth = require('./middlewares/auth');
+var authMiddleware = require('./middlewares/auth');
+var error_renderMiddleware = require('./middlewares/error_render');
 
 
 
@@ -66,14 +67,15 @@ _.extend(app.locals, {
   Loader: Loader
   // assets: assets
 });
+app.use(error_renderMiddleware.error_page);
 
 // application 
-app.use(auth.check_current_user);
+app.use(authMiddleware.check_current_user);
 
 
 // router 
 app.use('/', indexRouter);
-app.use('/users', users);
+// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

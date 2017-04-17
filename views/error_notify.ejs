@@ -7,23 +7,22 @@
 				<div class="col-md-8 column">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<ul class="nav nav-pills">
-								<% config.types.home.forEach(function(type, index){
-									var element = '<li>';
-									if(home_type == index) element = '<li class="active">';
-									element += '<a href="/?type='+index+'"  >'+type+'</a></li>'; %> 
-									<%- element%> 
-								<%	});%> 
-							</ul>
+						 	<h3 class="panel-title">
+                 错误通知
+              </h3> 
 						</div>
 						<div class="panel-body">
-							<div class="tab-content">
-								<% if(home_type==2) { %> 
-									<%- include ./book/list %> 
-								<% }else{ %>
-									<%- include ./topic/list %>  
-								<% } %> 
-							</div>
+				      <% if(typeof(error) !== 'undefined' && error){ %>
+				      <div class="alert alert-error">
+				        <strong><%= error %></strong>
+				      </div>
+				      <% } %>
+				      <% if(typeof(success) !== 'undefined' && success){ %>
+				      <div class="alert alert-success">
+				        <strong><%= success %></strong>
+				      </div>
+				      <% } %>
+				      <a href="<%- typeof(referer) !== 'undefined' ? referer : '/' %>"><span class="span-common">返回</span></a>
 						</div> 
 					</div>  
 				</div>
@@ -57,8 +56,6 @@
 		</div>
 	</div>
 </div>
-
-
-
+ 
 <%- include ./templ/footer %>
-
+ 

@@ -1,34 +1,47 @@
-<form action="/book/add" method="POST" class="form-horizontal" >
+              <% if (typeof(error) !== 'undefined' && error) { %>
+              <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong><%= error %></strong>
+              </div>
+              <% }  %>
+              <% if (typeof(success) !== 'undefined' && success) { %>
+              <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong><%= success %></strong>
+              </div>
+              <% }  %>
+
+<form action="/book/<%=post_type%>" method="POST" class="form-horizontal" >
   <div class="form-group">
     <label for="name" class="col-sm-2 control-label">书名</label>
     <div class="col-sm-8">
-      <input class="form-control" name="name" id="name" placeholder="书名只应填写正标题，副标题填在下栏">
+      <input class="form-control" name="name" id="name" placeholder="书名只应填写正标题，副标题填在下栏" value="<%=book.name%>" />
     </div>
   </div>
   <div class="form-group">
     <label for="subname" class="col-sm-2 control-label">副标题</label>
     <div class="col-sm-8">
-      <input class="form-control" name="subname" id="subname" placeholder="">
+      <input class="form-control" name="subname" id="subname" placeholder="" value="<%=book.subname%>" />
     </div>
   </div>
   <div class="form-group">
     <label for="originname" class="col-sm-2 control-label">原作名</label>
     <div class="col-sm-8">
-      <input class="form-control" name="originname" id="originname" placeholder="外文书籍的原书名">
+      <input class="form-control" name="originname" id="originname" placeholder="外文书籍的原书名" value="<%=book.originname%>" />
     </div>
   </div>
   <div class="form-group">
     <label for="ISBN" class="col-sm-2 control-label">ISBN</label>
     <div class="col-sm-8">
-      <input class="form-control" name="ISBN" id="ISBN" placeholder="">
+      <input class="form-control" name="ISBN" id="ISBN" placeholder="" value="<%=book.ISBN%>" />
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">作者</label>
     <div class="col-sm-8">
-      <input class="form-control" name="ahthor1" placeholder="如 [英] J. K. 罗琳" /> 
+      <input class="form-control" name="author" placeholder="如 [英] J. K. 罗琳" value="<%=book.author%>" />  
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-2" style="display: none">
       <botton class="btn btn-info"><a href="" ></a>添加</botton>
     </div>
   </div>
@@ -36,9 +49,9 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">译者</label>
     <div class="col-sm-8">
-      <input class="form-control" name="translator1" placeholder=" " /> 
+      <input class="form-control" name="translator" placeholder=" " value="<%=book.translator%>" /> 
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-2" style="display: none">
       <botton class="btn btn-info"><a href="" ></a>添加</botton>
     </div>
   </div>
@@ -46,35 +59,35 @@
   <div class="form-group">
     <label for="publisher" class="col-sm-2 control-label">出版社</label>
     <div class="col-sm-8">
-      <input class="form-control" name="publisher" id="publisher" placeholder="">
+      <input class="form-control" name="publisher" id="publisher" placeholder="" value="<%=book.publisher%>" />
     </div>
   </div>
 
   <div class="form-group">
     <label for="publishdate" class="col-sm-2 control-label">出版日期</label>
     <div class="col-sm-8">
-      <input class="form-control" name="publishdate" id="publishdate" placeholder="">
+      <input class="form-control" name="publishdate" id="publishdate" placeholder="" value="<%=book.publishdate%>" />
     </div>
   </div>
 
   <div class="form-group">
     <label for="intro" class="col-sm-2 control-label">内容介绍</label>
     <div class="col-sm-8">
-      <textarea class="form-control" name="intro" id="intro" placeholder=""></textarea>
+      <textarea class="form-control" rows=6 name="intro" id="intro" placeholder=""><%=book.intro%></textarea>
     </div>
   </div>
 
   <div class="form-group">
     <label for="authorintro" class="col-sm-2 control-label">作者介绍</label>
     <div class="col-sm-8">
-      <textarea class="form-control" name="authorintro" id="authorintro" placeholder=""></textarea>
+      <textarea class="form-control" rows=6 name="authorintro" id="authorintro" placeholder=""><%=book.authorintro%></textarea>
     </div>
   </div>
 
   <div class="form-group">
     <label for="catalog" class="col-sm-2 control-label">目录</label>
     <div class="col-sm-8">
-      <textarea class="form-control" name="catalog" id="catalog" placeholder=""></textarea>
+      <textarea class="form-control" rows=6 name="catalog" id="catalog" placeholder=""><%=book.catalog%></textarea>
     </div>
   </div>
 

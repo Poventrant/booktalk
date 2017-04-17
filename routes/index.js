@@ -3,9 +3,10 @@ var config  = require('../config');
 var router = express.Router();
  
 var auth = require('../middlewares/auth');
+
 var user = require('../controllers/user');
-
-
+var book = require('../controllers/book');
+var home = require('../controllers/home');
 
 /**
  * 假数据 begin
@@ -19,40 +20,39 @@ var pages = 7;
 var book1 = {
     "_id" :  "58d788358345b8cc2cfa438f" , 
 
-    "name" : "C程序设计语言",
-    "subtitle":"第 2 版·新版",
-    "author" :  ["（美）Brian W. Kernighan", "（美）Dennis M. Ritchie"],
+    "name"    : "青年斯大林",
+    "subname" :"",
+    "author"  :  ["（美）Brian W. Kernighan", "（美）Dennis M. Ritchie"],
     "publisher": "机械工业出版社",
-    "pubdate":"2004-1",
-
-    "content" : "？\r\n",
-    "summary" : '在计算机发展的历史上，没有哪一种程序设计语言像C语言这样应用广泛。本书原著即为C语言的设计者之一Dennis M.Ritchie和著名计算机科学家Brian W.Kernighan合著的一本介绍C语言的权威经典著作。我们现在见到的大量论述C语言程序设计的教材和专著均以此书为蓝本。原著第1版中介绍的C语言成为后来广泛使用的C语言版本——标准C的基础。人们熟知的“hello,World"程序就是由本书首次引入的，现在，这一程序已经成为众多程序设计语言入门的第一课。↵原著第2版根据1987年制定的ANSIC标准做了适当的修订．引入了最新的语言形式，并增加了新的示例，通过简洁的描述、典型的示例，作者全面、系统、准确地讲述了C语言的各个特性以及程序设计的基本方法。对于计算机从业人员来说，《C程序设计语言》是一本必读的程序设计语 言方面的参考书。'
-    ,
-
+    "publishdate" :"2004-1",
+    "ISBN"    :"9787513910767",
+    "intro"   : '*英国科斯塔图书奖、法兰西学院奖、美国《洛杉矶时报》图书奖等国际大奖获奖作品！',
+    'authorintro' : '西蒙·蒙蒂菲奥里（Simon Sebag Montefiore）1965年在英国出生，知名历史学家，英国皇家文学学会研究员。',
+    'catalog' :'【目录】序曲 攻袭银行',
     "deleted" : false, 
-
-    "update_at" :  "2017-03-26T09:21:57.886Z" ,
-    "create_at" :  "2017-03-26T09:21:57.886Z" ,   
+    'cnt_visit':0,
+    "score":0,
+    "update" :  "2017-03-26T09:21:57.886Z" ,
+    "create" :  "2017-03-26T09:21:57.886Z" ,   
 }
 
 var book2 = {
-    "_id" :  "58d788358345b8cc2cfa438f" ,
+    "_id" :  "58d788358345b8cc2cfa438f" , 
 
-    "name" : "射雕英雄传",
-    "author" :  ["金庸"],  
- 
-    "subtitle":"第 2 版·新版", 
+    "name"    : "老年斯小林",
+    "subname" :"",
+    "author"  :  ["（美）Brian W. Kernighan", "（美）Dennis M. Ritchie"],
     "publisher": "机械工业出版社",
-    "pubdate":"2004-1",
-
-    "content" : "？\r\n",
-    "summary" : '在计算机发展的历史上，没有哪一种程序设计语言像C语言这样应用广泛。本书原著即为C语言的设计者之一Dennis M.Ritchie和著名计算机科学家Brian W.Kernighan合著的一本介绍C语言的权威经典著作。我们现在见到的大量论述C语言程序设计的教材和专著均以此书为蓝本。原著第1版中介绍的C语言成为后来广泛使用的C语言版本——标准C的基础。人们熟知的“hello,World"程序就是由本书首次引入的，现在，这一程序已经成为众多程序设计语言入门的第一课。↵原著第2版根据1987年制定的ANSIC标准做了适当的修订．引入了最新的语言形式，并增加了新的示例，通过简洁的描述、典型的示例，作者全面、系统、准确地讲述了C语言的各个特性以及程序设计的基本方法。对于计算机从业人员来说，《C程序设计语言》是一本必读的程序设计语 言方面的参考书。'
-    ,
-
+    "publishdate" :"2004-1",
+    "ISBN"    :"9787513910767" ,
+    "intro"   : '*英国科斯塔图书奖、法兰西学院奖、美国《洛杉矶时报》图书奖等国际大奖获奖作品！',
+    'authorintro' : '西蒙·蒙蒂菲奥里（Simon Sebag Montefiore）1965年在英国出生，知名历史学家，英国皇家文学学会研究员。',
+    'catalog' :'【目录】序曲 攻袭银行',
     "deleted" : false, 
-
-    "update_at" :  "2017-03-26T09:21:57.886Z" ,
-    "create_at" :  "2017-03-26T09:21:57.886Z" ,   
+    'cnt_visit':0,
+    "score":0,
+    "update" :  "2017-03-26T09:21:57.886Z" ,
+    "create" :  "2017-03-26T09:21:57.886Z" ,   
 }
 var books = [book1,book2];
 
@@ -273,9 +273,7 @@ current_user = user1;
  * 假数据 end
  */
 
-// 帖子
-
-// 查看 帖子
+// 帖子 
 router.get('/topic/detail', function(req, res, next) {
   res.render('topic/detail', { 
       // config: config,
@@ -283,8 +281,7 @@ router.get('/topic/detail', function(req, res, next) {
       // current_user: current_user 
   });
 });
-
-// 发表/编辑 帖子
+ 
 router.get('/topic/create', function(req, res, next) {
   res.render('topic/edit', { 
     // config: config, 
@@ -292,38 +289,17 @@ router.get('/topic/create', function(req, res, next) {
   });
 });
 
-// 书籍
-router.get('/book/detail', function(req, res, next) {
-  res.render('book/detail', { 
-    // config: config,
-    book : book1,
-    topics: topics
-    // current_user: current_user
-  });
-});
-router.get('/book/create', function(req, res, next) {
-  res.render('book/edit', { 
-    // config: config,
-    book : book1,
-    topics: topics
-    // current_user: current_user
-  });
-});
-
 // 主页
-router.get('/', function(req, res, next) {
-  res.render('index', { 
-  	// config: config,
-	  topics: topics,
-	  current_page: page, 
-	  tops: tops, 
-	  pages: pages, 
-    books:books
-	  // current_user: current_user
-  });
-});
+router.get('/', home.index );
 
- 
+
+// book
+router.get('/book/create'  , book.getcreate);
+router.post('/book/create' , book.create);  
+router.get('/book/item/:ISBN', book.getbook);
+router.post('/book/edit'   , book.edit);
+router.get('/book/edit/:ISBN', book.getedit); 
+
 // user
 router.get('/signin'  , user.getsignin); 
 router.get('/signup'  , user.getsignup);
@@ -336,7 +312,7 @@ router.post('/setting', auth.userRequired, user.setting);
 router.post('/change_password', auth.userRequired, user.change_password);
 router.get('/home/:name', user.gethomepage);
 
-
+// router.get('/inform', auth.userRequired, user.inform);
 router.get('/inform', function(req, res, next) {
   res.render('user/inform', { 
     // config: config,

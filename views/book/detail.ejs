@@ -5,30 +5,52 @@
 		<div class="col-md-12 column">
 			<div class="row clearfix">
 				<div class="col-md-8 column">
-					<div class="panel panel-default">
-						<div class='panel-body'> 
-              <span class="page-header"><h3><%= book.name %>&nbsp;<small><%= book.subtitle%></small></h3></span>
+					<div class="panel panel-default"> 
+            <div class='panel-body'>
+            	<h2><%= book.name %>&nbsp;<small><%= book.subname%></small></h2>
             </div>
-            <div class='panel-body' >  
-            	<img src="/images/book.jpg" style="width: 107px;"></img>
-              <ul class="text-muted"> 
-                <li>
-                  作者:<% book.author.forEach(function(name){ %>
-                  	<%= name %>
-                  <% });  %> 
-                </li> 
-                <li>
-                  出版时间:<%= book.pubdate %>
-                </li>   
-                <li>
-                  出版社:<%= book.publisher %>
-                </li>          
-              </ul>
+            <div class='panel-body'>
+            	<form> 
+            		<div class="form-group">
+							    <label class="col-sm-2 control-label"><img src="/images/book.jpg" style="width: 107px;"></img></label>
+							    <div class="col-sm-10">
+										<ul class="list-unstyled"> 
+			                <li>
+			                  作者:<%=book.author%> 
+			                </li> 
+			                <li>
+			                  原作名:<%= book.originname %>
+			                </li>   
+			                <li> 
+			                  译者:<%=book.translator%> 
+			                </li> 
+			                <li>
+			                  出版社:<%= book.publisher %>
+			                </li> 
+			                <li>
+			                  出版时间:<%= book.publishdate %>
+			                </li>
+			                <li>
+			                  ISBN:<%= book.ISBN %>
+			                </li>          
+			              </ul>
+							    </div>
+							  </div>
+            	</form>  
             </div>  
-						<div class="panel-body" style="background: red">
-							<h4>简介</h4>
-							<%= book.summary %>
-							待完成
+						<div class="panel-body" >
+							<div>
+								<h3 class="text-success">简介</h3>
+								<%= book.intro %> 								
+							</div>
+							<div>
+								<h3 class="text-success">作者简介</h3>
+								<%= book.authorintro %> 								
+							</div>
+							<div>
+								<h3 class="text-success">目录</h3>
+								<%= book.catalog %> 								
+							</div> 
 						</div> 
 					</div>
 					<div class="panel panel-default">
@@ -48,13 +70,13 @@
 						<div class="panel-body">
 							<div class="tab-content">
 								<div class="tab-pane active" id="panel-1"> 
-									<%- include ../topic/list %>  
+									<%# include ../topic/list %>  
 								</div>
 								<div class="tab-pane " id="panel-2"> 
-									<%- include ../topic/list %>  
+									<%# include ../topic/list %>  
 								</div>
 								<div class="tab-pane " id="panel-3">
-									<%- include ../topic/list %>  
+									<%# include ../topic/list %>  
 								</div>
 							</div>
 						</div> 
@@ -68,7 +90,8 @@
 							</h3>
 						</div>
 						<div class="panel-body">
-							<input type="submit" name="change" class="btn btn-primary" value="我要编辑" />
+							<a href="/book/edit/<%= book.ISBN%>"><input type="submit" name="change" class="btn btn-primary" value="我要编辑" /></a>
+							
 						</div> 
 					</div> 
 			</div> 

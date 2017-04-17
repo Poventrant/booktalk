@@ -1,6 +1,6 @@
 var utility = require('utility');
 var uuid    = require('node-uuid');
-var eventproxy     = require('eventproxy');
+var eventproxy = require('eventproxy');
 
 var tools		= require('../common/tools');
 var models  = require('../models');
@@ -42,6 +42,7 @@ exports.updatePassword = function(account, oldpass, newpass, callback){
 			}else{
 				tools.bhash(newpass, function (err, passhash) {  
 				  user.password = passhash;
+				  user.update = new Date();
 				  user.save(callback); 
 				}); 				
 			}
@@ -58,7 +59,8 @@ exports.updateInfo = function(account, wechat, QQ, email, address, signature, ca
   			'QQ' : QQ,
   			'email' : email,
   			'address' : address,
-  			'signature' : signature
+  			'signature' : signature,
+  			'update' : new Date()
   		} 
   	},
   	{new:true},
