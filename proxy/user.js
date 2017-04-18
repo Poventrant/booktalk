@@ -67,3 +67,11 @@ exports.updateInfo = function(account, wechat, QQ, email, address, signature, ca
   	callback 
   ); 
 }
+
+exports.update_reply = function(id, callback ){  
+  User.findOne( { _id:id }, function(err, user){
+		user.cnt_reply++;
+		user.update = new Date();
+		user.save(callback);
+  }); 
+}

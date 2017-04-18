@@ -1,4 +1,4 @@
-<form role="form" class="form-horizontal" action='/topic/<%=post_type%>' method='post' >  
+<form role="form" id="form" class="form-horizontal" action='/topic/<%=post_type%>' method='post' >  
 	<div class="form-group"> 
 		<label for="type_value" class="control-label col-sm-2 ">类型:</label> 
   	<div class="col-sm-4">
@@ -12,9 +12,9 @@
   </div>
 
   <div class="form-group">  
-    <label for="book" class="control-label col-sm-2 ">书籍:</label>
+    <label for="book" class="control-label col-sm-2 ">ISBN号:</label>
     <div class=" col-sm-4 ">
-      <input type="text" class="form-control" id="book"/> 
+      <input type="text" class="form-control" name="book_ISBNs" id="book" placeholder="请输入书籍的ISBN号" /> 
     </div>
     <div class="col-sm-2">
       <botton id="add" class="btn btn-info"><a href="" ></a>添加</botton>
@@ -22,11 +22,18 @@
   </div>  
 
   <div class="form-group" id="valid">  
-    <label for="book" class="control-label col-sm-2 ">有效期:</label>
+    <label for="valid_time" class="control-label col-sm-2 ">有效期:</label>
     <div class=" col-sm-4 ">
-      <input class="form-control" name="valid" placeholder="请输入数字，表示天数" /> 
+      <input class="form-control" name="valid_time" id="valid_time" placeholder="请输入整数，表示天数" /> 
     </div> 
   </div>  
+
+  <div class="form-group"  id="addition">  
+    <label for="addition" class="control-label col-sm-2 ">出借信息:</label>
+    <div class=" col-sm-10 ">
+      <input class="form-control" name="addition" placeholder="请输入你要需要特别强调的『出借信息』" /> 
+    </div> 
+  </div> 
 
   <div class="form-group">  
   	<label for="title" class="control-label col-sm-2 ">标题:</label>
@@ -37,20 +44,53 @@
   </div> 
  
   
-  <textarea class='editor' rows='20' ><%= typeof(topic) !== 'undefined' && topic.content || '' %></textarea>  
+  <textarea id='editor' rows=30 name="content"><%= typeof(topic) !== 'undefined' && topic.content || '' %></textarea>  
    
   <div class="form-group"> 
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-lg btn-primary">提交</button>
+    <div class="col-sm-offset-0 col-sm-10">
+      <button type="submit" class="btn btn-primary">发表</button>
     </div> 
   </div>
 </form> 
 
 <script>
   (function () {
-    var simplemde = new SimpleMDE({ element: $(".editor")[0] }); 
+    // var simplemde = new SimpleMDE({ element: $(".editor")[0] }); 
+    var editor = new wangEditor('editor');
+    editor.config.menus = [ 
+      'bold',
+      'italic',
+      'head',
+      'quote',
+      'insertcode',
+      'indent',
+      'unorderlist',
+      'orderlist', 
+      'underline', 
+      'strikethrough', 
+      'forecolor', 
+      '|', 
+      'link',
+      'unlink',
+      'table',
+      'emotion', 
+      'img', 
+      '|',
+      'undo',
+      'redo',
+      'source', 
+    ];
+    editor.create();
+
+    $('#form').on('submit',function(){ 
+      $('#editor').html(editor.$txt.html())  
+      // console.log(  );
+      // return false;
+    });
+
     $("#add").hide();
     $("#valid").hide();
+    $("#addition").hide();
     if( $("#type_value").val() == 1 ){  // 1 是书单
       $("#add").show();
     }else{
@@ -58,9 +98,12 @@
     }
     if( $("#type_value").val() == 2 ){  // 2 是出借
       $("#valid").show();
+      $("#addition").show();
     }else{
       $("#valid").hide();
+      $("#addition").hide();
     }    
+
     $("#type_value").on('change',function(){
       // console.log($("#type_value").val() );
       // 书评 书单 出借

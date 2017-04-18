@@ -24,14 +24,14 @@ exports.index = function (req, res, next) {
           total_page = Math.ceil(topics.length/config.cnt.main_lists); 
         } 
         
-        // // console.log("C home index begin:")
-        // // console.log(JSON.stringify("topics " + topics));
-        // topics.forEach(function(topic){
-        //   // console.log("topic "+ topic);
-        //   // console.log("topic create " + topic.create_ago() );
-        //   // console.log(JSON.stringify("topic author " + topic.author));
-        //   // console.log(JSON.stringify("topic last_reply " + topic.last_reply)); 
-        // });        
+        // console.log("C home index begin:")
+        // console.log(JSON.stringify("topics " + topics));
+        topics.forEach(function(topic){
+          // console.log("topic "+ topic);
+          // console.log("topic create " + topic.create_ago() );
+          // console.log(JSON.stringify("topic author " + topic.author));
+          console.log("last_reply " + topic.last_reply ); 
+        });        
       }
       // console.log("C home index end")
       res.render('index', {  

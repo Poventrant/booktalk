@@ -5,7 +5,16 @@
     <span class='btn-success'>置顶</span>
     <% } else if (topic.good) { %>
     <span class='btn-success'>精华</span>
-    <% } %>  
+    <% } %>
+
+
+    <% if(topic.type == 2 ) {  
+      if(topic.isValid){ %>
+      <span style="color:#fff; background-color: #337ab7; padding:3px 3px; ">有效</span>  
+    <% } else { %>
+      <span style="color:#fff; background-color: #cc1010; padding:3px 3px; ">失效</span> 
+    <% } } %>    
+
     <span >&nbsp;</span>
     <a href='/topic/item/<%=topic._id%>' title='<%= topic.title %>'>
       <%= topic.title %>
@@ -24,8 +33,8 @@
     <span title='点击数'><%= topic.cnt_visit  %></span> 
   </td>
 
-  <td>
-  <% if(topic.last_reply === 'undefined' || topic.last_reply == null){ %>
+  <td> 
+  <% if(topic.last_reply === 'undefined' || topic.last_reply === null){ %>
     <span  title="回复者"><%= topic.author.name %></span>
     <span>&nbsp;/&nbsp;</span>
     <span  title='回复时间'><%= topic.create_ago() %></span>

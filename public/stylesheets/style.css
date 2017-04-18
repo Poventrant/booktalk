@@ -1,8 +1,47 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 80px 0px;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+}
+ 
+.container { 
+	/*width: 90%;*/
+  /*max-width: 1400px;*/
+  /*min-width: 960px;*/
+  /*padding: auto 15px ;*/
+  /*margin: 15px auto;*/
+  /*min-height: 400px;*/ 
+}  
+.navbar-form { 
+    margin: 0px; 
 }
 
-a {
-  color: #00B7FF;
+.reply_item {
+  padding: 16px 20px;    
+  border-bottom: 1px solid #f0f2f7 ;
+} 
+
+.user_action {
+  padding:8px 0px;
 }
+
+.user_action a {
+  padding:8px 8px;
+  text-decoration: none;
+  color: #8590a6; 
+} 
+.user_action a:hover, a:focus {  
+  color: #337ab7;  
+  text-decoration: none;
+} 
+
+.user a {
+	font-size: 18px;
+	color: #0c1b38;
+	text-decoration: none; 
+
+}
+
+.user a:hover, a:focus {   
+  color: #337ab7;  
+  text-decoration: none; 
+} 

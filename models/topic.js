@@ -10,7 +10,7 @@ var TopicSchema = new Schema({
   type : { type: Number, default: 0 },  // 帖子类型
   title: { type: String},
   content: { type: String},  
-  books : [{ type: Schema.ObjectId}],// 所指的书籍,书评或借书只有1个,书单有多个 
+  book_ISBNs : [{ type: String}],// 书籍的ISBN号,书评或借书只有1个,书单有多个 
   // 借书类型所需  
   addition : { type: String}, // 出借者的额外补充 
   valid_time : { type: Number, default: 7 },  // 帖子有效天数,默认为1周 
@@ -37,11 +37,12 @@ TopicSchema.plugin(BaseModel);
 // UserSchema.index({ISBN: 1}, {unique: true}); 
 
   // 用tools里的moment生成以下两个,不存入数据库 
-TopicSchema.virtual('valid_ddl').get(function () { 
-  return tools.valid_ddl(create,7);
+TopicSchema.virtual('valid_ddl').get(function () {
+  console.log('******* M topic '); 
+  return tools.Date.valid_ddl(this.create,this.valid_time);
 });
 TopicSchema.virtual('isValid').get(function () { 
-  return tools.isValid(create,7);
+  return tools.Date.isValid(this.create,this.valid_time);
 });
 
 TopicSchema.pre('save', function(next){

@@ -7,37 +7,44 @@ var Topic  = models.Topic;
 // var User   = models.User;
 
 var UserProxy  = require('../proxy').User;
-// var ReplyProxy = require('../proxy').Reply;
+var BookProxy  = require('../proxy').Book;
 var ReplyProxy = require('./reply');
 
 exports.newAndSave = function (topicObj, callback) {
-	var topic = new Topic(topicObj);
+	var topic = new Topic(topicObj); 
   topic.save(callback);
 }
  
 
 exports.getOneByID = function(id, callback){  
 
-  Topic.findOne({ _id : id}, function(err, topic){
-  	// console.log(JSON.stringify(topic));
-  	if(topic){
+  Topic.findOne({ _id : id}, function(err, topic){ 
+  	if(topic){ 
 			var ep = new eventproxy();
 			ep.fail(callback);
-  		ep.all('user','replies',function(user,replies){
+
+  		ep.all('user','replies','books',function(user,replies,books){
   			topic.author = user;
   			topic.replies = replies;  // whose reply including author
-  			// console.log("proxy topic getOne: ");
-  			// console.log(JSON.stringify(topic.author));
-  			// console.log(JSON.stringify(topic.replies)); 
-  			// console.log(JSON.stringify(topic));
+  			topic.books = books; 
+  			console.log('2nd ' +topic.isValid);
   			callback(err, topic);
   		});
+  		ep.after('book',topic.book_ISBNs.length,function(books){
+				// topic.books = books;
+				ep.emit('books',books);
+			});
 	   	UserProxy.getOneByID(topic.author_id,function(err, user){
 		  	ep.emit('user',user);
 	   	}); 
 	   	ReplyProxy.getSomeByTopicID(topic._id, function(err, replies){
 	   		ep.emit('replies',replies);
-	   	});  		 
+	   	});
+	   	topic.book_ISBNs.forEach(function(book_ISNB){
+	   		BookProxy.getOneByISBN(book_ISNB,function(err, book){ 
+	   			ep.emit('book',book);
+	   		})
+	   	})	   		 
 	  }else{
 	  	callback(null);
 	  } 
@@ -56,7 +63,7 @@ exports.getSomeForHomePage = function (page, type, callback) {
 	var ops = {
 		skip	: (page-1) * limit,
 		limit : limit,
-		sort	: '-update'
+		sort	: {update:-1}
 	};
   Topic.find(map, field ,ops, function(err,topics){ 
   	if(topics){
@@ -66,26 +73,21 @@ exports.getSomeForHomePage = function (page, type, callback) {
   			callback(topics);
 
   		});
-	  	topics.forEach(function(topic){
+	  	topics.forEach(function(topic){ 
 		   	UserProxy.getOneByID(topic.author_id,function(err,user){
 		   		// if(!err){ return callback([]) };
 		   		// if(!user){ return callback(null,null)}
 		   		topic.author = user;
 			   	// reply may be null 
 			   	if(topic.last_reply_id){ 
-			   		ReplyProxy.getOneByID(topic.last_reply_id,function(reply){  // this include reply.author 
-			   			topic.last_reply = reply; 
-// console.log('proxy topic getSomeForHomePage: if')
-// console.log(JSON.stringify('topic'+topic));
-// console.log(JSON.stringify('topic author'+topic.author));
-// console.log(JSON.stringify('topic last_reply'+topic.last_reply)); 
+			   		ReplyProxy.getOneByID(topic.last_reply_id, function(reply){  // this include reply.author 
+			   			topic.last_reply = reply;  
+			   			console.log("topic  and it last " + topic);
+			   			console.log("its last " + reply);
+			   			console.log("its author " + reply.author);
 			   			ep.emit('topic',topic);
 			   		});
-			   	}else{
-// console.log('proxy topic getSomeForHomePage: else')
-// console.log(JSON.stringify('topic'+topic));
-// console.log(JSON.stringify('topic author'+topic.author));
-// console.log(JSON.stringify('topic last_reply '+topic.last_reply)); 
+			   	}else{ 
 			   		topic.last_reply = null;  
 			   		ep.emit('topic',topic);
 			   	}
@@ -106,3 +108,13 @@ exports.getSomeForBook = function( ){
 exports.getSomeByAuthor = function( ){
 	// by time,limit order by create time
 }
+
+exports.update_last_reply = function(topic_id, reply, callback){
+	Topic.findOne({ _id : topic_id}, function(err, topic){		
+		topic.last_reply_id = reply._id; 
+		topic.update = reply.create;
+		topic.cnt_reply++;
+		topic.save(callback);} 
+	); 
+}
+

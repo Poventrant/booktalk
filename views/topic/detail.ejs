@@ -1,4 +1,16 @@
 <%- include ../templ/header %>
+<%- include ../includes/editor %>
+
+<style type="text/css">
+.wangEditor-container {
+  position: relative;
+  background-color: #fff;
+  border: 0px ; 
+  z-index: 1;
+  width: 100%;
+}
+
+</style>  
 
 <div class="container">
   <div class="row clearfix">
@@ -13,19 +25,25 @@
                   类型:<%= config.types.topic[topic.type] %>
                 </li>
                 
-                <li>
-                  作者:<a href="/user/<%= topic.author.name %>" ><%= topic.author.name %></a>
+                <li class="user" >
+                  作者:<a href="/home/<%= topic.author.name %>" style="font-size:14px"><%= topic.author.name %></a>
                 </li>
                 <li>
                   <%= topic.cnt_visit %> 次浏览
                 </li>
                 <li>
-                  发布时间:<%= topic.create_ago() %>
-                </li>           
+                  发布时间 : <%= topic.create_ago() %>
+                </li>
+                <% if(topic.type == 2 ) {  
+                  if(topic.isValid){ %>
+                  <li><span style="color:#fff; background-color: #337ab7; padding:3px 3px; ">有效</span></li>  
+                <% } else { %>
+                  <li><span style="color:#fff; background-color: #cc1010; padding:3px 3px; ">失效</span></li> 
+                <% } } %>            
               </ul>
             </div>  
-            <div class='panel-body' style=" border-top: 1px solid #e5e5e5; background: red"> 
-              <%= topic.content %>
+            <div class='panel-body' style=" border-top: 1px solid #e5e5e5; "> 
+              <%- topic.content %>
             </div>
           </div>
           <div class='panel panel-default'>
@@ -34,26 +52,40 @@
                 回复
               </h3> 
             </div>  
-            <div class='panel-body'> 
-              <% if (topic.reply && topic.reply.length > 0) { %>
-                <% topic.reply.forEach(function(reply,index){ %>
+            <div> 
+              <% if (topic.replies && topic.replies.length > 0) { %>
+                <% topic.replies.forEach(function(reply,index){ %>
                 <% include ../reply/item %>
                 <% }) %>
               <% } else{ %>
-              <p>暂无回复</p>
+              <div class="reply_item">暂无回复</div>
               <% }%>
             </div>
           </div> 
+          <% if( current_user) { %>
           <div class='panel panel-default'>
             <div class='panel-heading'>
               <h3 class="panel-title">
                  添加回复
               </h3> 
             </div>  
-            <div class='panel-body' style="background: red"> 
-                fuck
+            <div class='panel-body' > 
+                <form class="form-horizontal" id="form" action="/reply/create" method="post">
+                  <div class="form-group">
+                    <textarea id="editor" rows=16 name="content"></textarea> 
+                  </div> 
+                  <div class="form-group">
+                    <input type="hidden" name="topic_id" value="<%=topic._id%>" />
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-0 col-sm-10">
+                      <button type="submit" class="btn btn-primary">回复</button>
+                    </div>
+                  </div>
+                </form>
             </div>
           </div> 
+          <% } %>
         </div>  
         <div class="col-md-4 column">
           <div class='panel panel-default'>
@@ -62,38 +94,66 @@
                  作者信息
               </h3> 
             </div>  
-            <div class='panel-body'> 
-                <h4><img src="/images/avatar.jpg" /><a class="text-muted" href="/user/<%= topic.author.account %>"> <%= topic.author.name %></a></h4>
+            <div class='panel-body user'> 
+                <h4><img src="/images/avatar.jpg" /><a class="text-muted" href="/home/<%= topic.author.name %>"> <%= topic.author.name %></a></h4>
                 个性签名:<em>『<%= topic.author.signature %>』</em> 
             </div>
           </div>
           <div class='panel panel-default'>
             <div class='panel-heading'>
               <h3 class="panel-title">
-                <%= config.types.topic[topic.type] %>
+                <%= config.types.topic[topic.type] %> 
               </h3> 
             </div>  
             <div class='panel-body'> 
               <% if(topic.books && topic.books.length>0){ %>
               <%  topic.books.forEach(function(book ){ %>
-                  <h4><a class="label label-primary"><i class="fa fa-tags"></i> <%= book.name%></a></h4> 
+                  <h4><a class="label label-primary" href="/book/item/<%=book.ISBN%>"><i class="fa fa-tags"></i> <%= book.name%></a></h4> 
               <%   }); }; %>
             </div>
           </div>   
 
-          <% if(topic.type == 3) { %>
+          <% if(topic.type == 2 ) { %>
           <div class='panel panel-default'>
             <div class='panel-heading'>
               <h3 class="panel-title">
-                借书信息
+                出借信息
               </h3> 
             </div>  
-            <div class='panel-body'> 
-              <% if(topic.isValid){ %>
-              <p>消息已过期</p>
+            <div class='panel-body'>   
+              <% if(topic.isValid==true){ %>
+                <div style="color:#337ab7;"><strong>有效期至 : <%=topic.valid_ddl%></strong></div>
+                <div><strong>借书人语 : </strong></div>
+                <div>　　<%=topic.addition %></div> 
               <% }else{ %>
-                <%= topic.addition %> 
+                消息已过期 
               <% } %> 
+            </div>
+          </div>  
+          <% } %>
+
+          <% if( current_user && current_user._id == topic.author_id ) { %>
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <h3 class="panel-title">
+                设置
+              </h3> 
+            </div>  
+            <div class='panel-body'>   
+                <form class="form-horizontal" id="form" action="/topic/update_state" method="post"> 
+                  <div class="form-group">
+                    <input type="hidden" name="topic_id" value="<%=topic._id%>" />
+                  </div>
+                  <div class="form-group"> 
+                    <div class="col-sm-offset-0 col-sm-10">
+                      <% if(topic.isValid) {%>
+                      <button type="submit" class="btn btn-primary">设为无效</button>
+                      <% } else { %>
+                      <button type="submit" class="btn btn-danger">设为有效</button>
+                      <% } %>
+                    </div>
+                  </div>
+                </form>
             </div>
           </div>  
           <% } %>
@@ -104,3 +164,38 @@
 </div> 
  
 <%- include ../templ/footer %>
+
+<script>
+  (function () {
+    // var simplemde = new SimpleMDE({ element: $(".editor")[0] }); 
+    var editor = new wangEditor('editor');
+    editor.config.menus = [ 
+      'bold',
+      'italic',
+      'head',
+      'quote',
+      'insertcode',
+      'indent',
+      'unorderlist',
+      'orderlist', 
+      'underline', 
+      'strikethrough', 
+      'forecolor', 
+      '|', 
+      'link',
+      'unlink',
+      'table',
+      'emotion', 
+      'img', 
+      '|',
+      'undo',
+      'redo',
+      'source', 
+    ];
+    editor.create();
+
+    $('#form').on('submit',function(){ 
+      $('#editor').html(editor.$txt.html())   
+    }); 
+  })();
+</script>

@@ -1,27 +1,30 @@
-<div style=" border-top: 1px solid #e5e5e5; ">
-  <div > 
+<div class="reply_item" >
+  <div class="user" > 
     <a href="/user/<%= reply.author.name %>"><img src="/images/avatar.jpg" /></a>
-    <a class="text-muted" href="/user/<%= reply.author.name %>"><%= reply.author.name %></a>
+    <a href="/home/<%= reply.author.name %>"><%= reply.author.name %></a>
     <% if(reply.author.name == topic.author.name){ %>
-      <span class="btn-primary">作者</span>
-    <% } %> 
- 		<span class="pull-right"> 
-    <% if (current_user && current_user.is_admin || (current_user && current_user._id == reply.author._id )) { %>
-      <a href='javascript:void(0);'><i class="fa fa-trash" title='删除'></i></a>
-    <% } %> 
-    <% if (current_user){ %>
-      <a href='javascript:void(0);'><i class="fa fa-reply" title="回复"></i></a>
-    <% } %>
-    </span>    
-    <p><%= topic.author.signature %></p> 
+      <span style="color:#fff; background-color: #337ab7; padding:3px 3px; ">作者</span>
+    <% } %>    
+    <p style="border-bottom: 1px solid #ddd ;"><%= reply.author.signature %></p> 
   </div>
  
 
-  <div style="background: red"> 
-  	<%= reply.content %>
+  <div> 
+  	<%- reply.content %>
   </div>
 
-  <div class="text-right reply_info">
-  	<a class="reply_time" href="#<%= reply._id %>"><%= index + 1 %> 楼 • <%= reply.create_at %></a>
-  </div>
+  <div class="text-left text-muted">
+  	<%= index + 1 %> 楼  • 发布于 <%= reply.create_ago() %>
+  </div> 
+  <div class="user_action" >
+    <% if (current_user && current_user.is_admin || (current_user && current_user._id == reply.author._id )) { %>
+    <a href="/topic/create?type=0" >
+      <i class="fa fa-lg fa-trash" title='删除'></i>&nbsp;删除
+    </a>
+    <% } if (current_user){ %>
+    <a href="/topic/create?type=1">
+      <i class="fa fa-lg fa-reply" title='删除'></i>&nbsp;回复
+    </a>
+    <% } %>
+  </div> 
 </div>

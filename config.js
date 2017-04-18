@@ -8,8 +8,8 @@ var config = {
   // system
   
   // web_info 
-  name: 'bbs', // 社区名字
-  description: 'bbs：书籍借阅交流社区', // 社区的描述
+  name: 'BookTalk', // 社区名字
+  description: 'BookTalk：书籍借阅交流社区', // 社区的描述
   keywords: 'nodejs, node, express, connect, socket.io, book',
   about:"一借一还，一本书可以做两次接触的借口，而且不着痕迹。",
 
