@@ -1,17 +1,11 @@
-<form role="form" class="form-horizontal" action='/' method='get' >  
+<form role="form" class="form-horizontal" action='/topic/<%=post_type%>' method='post' >  
 	<div class="form-group"> 
-		<label class="control-label col-sm-2 ">类型:</label> 
+		<label for="type_value" class="control-label col-sm-2 ">类型:</label> 
   	<div class="col-sm-4">
-  		<select class="form-control " id="type_value">
+  		<select class="form-control " name="type" id="type_value">
         <option value="">请选择</option>
-        <% var typeValue = '';
-          if (typeof(topic) !== 'undefined') {
-            typeValue = topic.type;
-          } 
-          config.types.topic.forEach(function (type,index) {
-            var value = index;
-            var text = type; %>
-          <option value="<%=value%>" <%= typeValue === value ? 'selected': '' %>><%=text%></option> 
+        <%  config.types.topic.forEach(function (type,index) { %>
+          <option value="<%=index%>" <%= topic_type === index ? 'selected': '' %>><%=type%></option> 
       <% }); %>
     	</select>  
     </div> 
@@ -30,20 +24,20 @@
   <div class="form-group" id="valid">  
     <label for="book" class="control-label col-sm-2 ">有效期:</label>
     <div class=" col-sm-4 ">
-      <input class="form-control" placeholder="请输入数字，表示天数" /> 
+      <input class="form-control" name="valid" placeholder="请输入数字，表示天数" /> 
     </div> 
   </div>  
 
   <div class="form-group">  
   	<label for="title" class="control-label col-sm-2 ">标题:</label>
   	<div class=" col-sm-10 ">
-  		<input id="title" class="form-control" placeholder="标题字数 10 字以上" 
-      	value="<%= typeof(topic) !== 'undefined' && topic || '' %>" /> 
+  		<input id="title" name="title" class="form-control" placeholder="请输入标题" 
+      	value="<%= typeof(topic) !== 'undefined' && topic.title || '' %>" /> 
     </div>
   </div> 
  
   
-  <textarea class='editor '  rows='20' ><%= typeof(topic) !== 'undefined' && topic || '' %></textarea>  
+  <textarea class='editor' rows='20' ><%= typeof(topic) !== 'undefined' && topic.content || '' %></textarea>  
    
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
@@ -57,14 +51,25 @@
     var simplemde = new SimpleMDE({ element: $(".editor")[0] }); 
     $("#add").hide();
     $("#valid").hide();
+    if( $("#type_value").val() == 1 ){  // 1 是书单
+      $("#add").show();
+    }else{
+      $("#add").hide();
+    }
+    if( $("#type_value").val() == 2 ){  // 2 是出借
+      $("#valid").show();
+    }else{
+      $("#valid").hide();
+    }    
     $("#type_value").on('change',function(){
-      console.log($("#type_value").val() );
-      if( $("#type_value").val() == 0 ){  // 0 是书单
+      // console.log($("#type_value").val() );
+      // 书评 书单 出借
+      if( $("#type_value").val() == 1 ){  // 1 是书单
         $("#add").show();
       }else{
         $("#add").hide();
       }
-      if( $("#type_value").val() == 2 ){  // 0 是书单
+      if( $("#type_value").val() == 2 ){  // 2 是出借
         $("#valid").show();
       }else{
         $("#valid").hide();

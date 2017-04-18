@@ -56,15 +56,14 @@ exports.create = function (req, res, next) {
 	  authorintro : req.body.authorintro.trim(),  
 	  catalog 		: req.body.catalog.trim()
 	};
-	console.log("controller book create " + bookObj.ISBN);
+	// console.log("controller book create " + bookObj.ISBN);
 	// check if it's ok to creat 
 	BookProxy.getOneByISBN(bookObj.ISBN, function(err, book){
 		if (err) { return next(err);  } 
-		if(!book){ // 不存在,可以创建该书
-			// newAndSave it
+		if(!book){ // 不存在,可以创建该书 
 			BookProxy.newAndSave( bookObj ,function(err, book){
 		    if (err) { return next(err);  } 
-		    res.render('book/edit',{ book:book, title:'添加书籍', post_type:'create', success:'添加成功!'}); 
+		    res.redirect('book/item/'+book.ISBN ); 
 			});			
 		}else{  // 存在
 			res.render('book/edit',{ book:bookObj, title:'添加书籍', post_type:'create', error:'已存在该书!'}); 
@@ -91,12 +90,12 @@ exports.edit = function (req, res, next) {
 	// check if it's ok to edit 
 	BookProxy.getOneByISBN(bookObj.ISBN, function(err, book){
 		if (err) { return next(err);  } 
-		if(!book){ // 不存在,可以创建该书
+		if(!book){ // 不存在 
 			res.render404('编辑失败 该书籍不存在或已被删除');	
 		}else{  // 存在
 			BookProxy.update(book, bookObj,function(err){
 				if(err) return next(err);
-				return res.render('book/edit',{ book:bookObj, title:'修改书籍', post_type:'edit', success:'修改成功!'}); 
+				res.redirect('book/item/'+book.ISBN );  
 			});   
 		}
 	});	  

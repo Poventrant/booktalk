@@ -1,37 +1,5 @@
-<div  style=" border-top: 1px solid #e5e5e5; "> 
-  <div class="  pull-left">
-    <span title="回复数">
-      <%= topic.cnt_reply %>
-    </span>
-    <span >/</span>
-    <span title='点击数'>
-      <%= topic.cnt_visit  %> 
-    </span>
-
-  </div>
-
-
-  <div class=' pull-right'>
-    <span title="作者">
-       <%= topic.author.name %>
-    </span>
-    <span >/</span>
-    <span  title='发表时间'>
-      <%= topic.create_at %>
-    </span>
-
-  </div>
-
-  <div class=' pull-right'>
-    <span  title="回复者">
-      <%= topic.author.name %>
-    </span>
-    <span >/</span>
-    <span  title='回复时间'>
-      <%= topic.create_at %>
-    </span>
-  </div>
-  <div class="pull left ">
+<tr>
+  <td>
     <%# 置顶、精华 %>
     <% if (topic.top) { %>
     <span class='btn-success'>置顶</span>
@@ -39,9 +7,34 @@
     <span class='btn-success'>精华</span>
     <% } %>  
     <span >&nbsp;</span>
-    <a href='/topic/detail' title='<%= topic.title %>'>
+    <a href='/topic/item/<%=topic._id%>' title='<%= topic.title %>'>
       <%= topic.title %>
     </a>
-  </div>
+  </td>
 
-</div>
+  <td>
+    <span title="作者"><%= topic.author.name %></span>
+    <span>&nbsp;/&nbsp;</span>
+    <span  title='发表时间'><%= topic.create_ago() %></span> 
+  </td>
+
+  <td>
+    <span title="回复数"><%= topic.cnt_reply %></span>
+    <span>&nbsp;/&nbsp;</span>
+    <span title='点击数'><%= topic.cnt_visit  %></span> 
+  </td>
+
+  <td>
+  <% if(topic.last_reply === 'undefined' || topic.last_reply == null){ %>
+    <span  title="回复者"><%= topic.author.name %></span>
+    <span>&nbsp;/&nbsp;</span>
+    <span  title='回复时间'><%= topic.create_ago() %></span>
+  <% } else { %>
+    <span  title="回复者"><%= topic.last_reply.author.name %></span>
+    <span>&nbsp;/&nbsp;</span>
+    <span  title='回复时间'><%= topic.last_reply.create_ago() %></span> 
+  <% } %>
+  </td>
+
+
+ </tr>

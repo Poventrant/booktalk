@@ -20,12 +20,12 @@
                   <%= topic.cnt_visit %> 次浏览
                 </li>
                 <li>
-                  发布时间:<%= topic.create_at %>
+                  发布时间:<%= topic.create_ago() %>
                 </li>           
               </ul>
             </div>  
             <div class='panel-body' style=" border-top: 1px solid #e5e5e5; background: red"> 
-              帖子正文待完成
+              <%= topic.content %>
             </div>
           </div>
           <div class='panel panel-default'>

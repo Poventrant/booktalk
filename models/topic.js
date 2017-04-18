@@ -21,8 +21,8 @@ var TopicSchema = new Schema({
  	cnt_visit			: { type: Number, default: 0 }, 	// 访问量
  	cnt_reply			: { type: Number, default: 0 }, // 回复量  
 	score 				: { type: Number, default: 0 }, // 评分
- 	lastReply_id	: { type: Schema.ObjectId},
- 	lastReply_time: { type: Date, default: Date.now },  
+ 	last_reply_id	: { type: Schema.ObjectId},
+ 	// lastReply_time: { type: Date, default: Date.now },  
   
 	// system
 	deleted: {type: Boolean, default: false},
