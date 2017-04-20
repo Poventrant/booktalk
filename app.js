@@ -35,10 +35,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+
 app.use(cookieParser(config.session.secret));
 
-
 // connect to db 
+mongoose.Promise = global.Promise;
 mongoose.connect(
   config.web.db, 
   {server: {poolSize: 20} },   
@@ -53,13 +55,19 @@ mongoose.connect(
 app.use(session({
   secret: config.session.secret,
   // key: config.auth_cookie_name, //这里auth_cookie_name就是指定内容"secret"
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-  resave: false,
+  cookie: {maxAge: 1000 * 60* 60}, // 1 hour
+  resave: true,
   saveUninitialized: false,  
   store: new MongoStore({ 
     mongooseConnection: mongoose.connection
   })
 }));
+
+// // 处理表单及文件上传的中间件
+// app.use(formidable({
+//   uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
+//   keepExtensions: true// 保留后缀
+// }));
 
 // set static, dynamic helpers
 _.extend(app.locals, {
@@ -67,12 +75,12 @@ _.extend(app.locals, {
   Loader: Loader
   // assets: assets
 });
-app.use(error_renderMiddleware.error_page);
+
 
 // application 
+app.use(error_renderMiddleware.error_page);
 app.use(authMiddleware.check_current_user);
-
-
+ 
 // router 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);

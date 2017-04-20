@@ -28,9 +28,9 @@ var UserSchema = new Schema({
 UserSchema.plugin(BaseModel);
 
 
-UserSchema.index({account: 1}, {unique: true});
-UserSchema.index({email: 1}, {unique: true});
-UserSchema.index({score: -1}); 
+// UserSchema.index({account: 1}, {unique: true});
+// UserSchema.index({email: 1}, {unique: true});
+// UserSchema.index({score: -1}); 
 
 UserSchema.pre('save', function(next){
   var now = new Date();

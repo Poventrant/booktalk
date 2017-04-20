@@ -10,7 +10,7 @@ var config = {
   // web_info 
   name: 'BookTalk', // 社区名字
   description: 'BookTalk：书籍借阅交流社区', // 社区的描述
-  keywords: 'nodejs, node, express, connect, socket.io, book',
+  keywords: 'nodejs, node, express, connect, book',
   about:"一借一还，一本书可以做两次接触的借口，而且不着痕迹。",
 
   session : {
@@ -43,6 +43,7 @@ var config = {
   types : {
     home : ['书评','书单','借书','书籍'], 
     topic : ['书评','书单','出借'],
+    book : ['书评','书单','出借']
   }
 
 

@@ -12,8 +12,7 @@ var ReplyProxy = require('../proxy').Reply;
 
  
 exports.index = function (req, res, next) { 
-	// GET: get some info from req.query 
-  // console.log("C home index begin:")
+	// GET: get some info from req.query  
 	var page = parseInt(req.query.page, 10) || 1;
 	var type = req.query.type || 0; 
 	if(type != 3){ 
@@ -22,19 +21,9 @@ exports.index = function (req, res, next) {
         var total_page = 0;
         if(topics){
           total_page = Math.ceil(topics.length/config.cnt.main_lists); 
-        } 
-        
-        // console.log("C home index begin:")
-        // console.log(JSON.stringify("topics " + topics));
-        topics.forEach(function(topic){
-          // console.log("topic "+ topic);
-          // console.log("topic create " + topic.create_ago() );
-          // console.log(JSON.stringify("topic author " + topic.author));
-          console.log("last_reply " + topic.last_reply ); 
-        });        
-      }
-      // console.log("C home index end")
-      res.render('index', {  
+        }  
+      } 
+      return res.render('index', {  
         topics: topics,
         current_page: page, 
         // tops: tops, 
@@ -47,7 +36,7 @@ exports.index = function (req, res, next) {
       if(err) return next(err);
       var total_page;
       if(books) total_page = Math.ceil(books.length/config.cnt.main_books);  
-		  res.render('index', {   
+		  return res.render('index', {   
 		    current_page: page,  
 		    total_page: total_page,
 		    home_type: type, 

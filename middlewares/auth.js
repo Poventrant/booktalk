@@ -45,7 +45,7 @@ exports.check_current_user = function (req, res, next) {
 
 exports.userRequired = function (req, res, next) {
   if (!req.session || !req.session.user || !req.session.user._id) {
-    return res.status(403).send('forbidden!');
+    return res.render404('该操作需要登录权限,请先登录');
   } 
   next();
 };

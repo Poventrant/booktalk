@@ -15,7 +15,7 @@ exports.create = function (req, res, next) {
 			if(err) return next(err);
 			UserProxy.update_reply(reply.author_id,function(err){ 
 				if(err) return next(err);
-				res.redirect('/topic/item/'+replyObj.topic_id);
+				return res.redirect('/topic/item/'+replyObj.topic_id);
 			}); 
 		}); 
 	});

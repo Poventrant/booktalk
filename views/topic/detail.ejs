@@ -126,13 +126,13 @@
                 <div><strong>借书人语 : </strong></div>
                 <div>　　<%=topic.addition %></div> 
               <% }else{ %>
-                消息已过期 
+                <div style="color:red;"><strong>消息已过期</strong></div>
               <% } %> 
             </div>
           </div>  
           <% } %>
 
-          <% if( current_user && current_user._id == topic.author_id ) { %>
+          <% if( current_user && current_user._id == topic.author_id && topic.type == 2 ) { %>
           <div class='panel panel-default'>
             <div class='panel-heading'>
               <h3 class="panel-title">

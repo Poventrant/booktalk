@@ -1,3 +1,4 @@
+<% if(topics && topics.length>0 ) { %>
 <table class="table table-hover">
     <tr>
         <th>标题</th>
@@ -65,5 +66,8 @@
     }
   });
 </script>
+<% } else { %>
+暂时没有帖子
+<% } %>
 
 

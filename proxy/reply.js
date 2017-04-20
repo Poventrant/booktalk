@@ -49,7 +49,7 @@ exports.getOneByID = function (id, callback) {
    	if(reply){
 	   	UserProxy.getOneByID(reply.author_id, function(err, user){
 	   		reply.author = user;
-	   		console.log("in proxy " + reply.author);
+	   		// console.log("in proxy " + reply.author);
 	   		callback(reply);
 	   	});
    	}else{

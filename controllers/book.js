@@ -3,21 +3,37 @@ var eventproxy     = require('eventproxy');
 var utility        = require('utility'); 
 var uuid           = require('node-uuid');
 
-var config         = require('../config'); 
-// var authMiddleWare = require('../middlewares/auth');
-// var UserProxy      = require('../proxy').User; 
+var config         = require('../config');  
+var UserProxy      = require('../proxy').User; 
 var BookProxy      = require('../proxy').Book;
+var TopicProxy     = require('../proxy').Topic;
 
 exports.getbook = function (req, res, next) {
 	// get ID from req
 	var ISBN = req.params.ISBN;
+	var page = parseInt(req.query.page, 10) || 1;
+	var type = req.query.type || 0; 
 	// find book by ID from BD
 	BookProxy.getOneByISBN(ISBN, function(err, book){
 		if(err) { return next(err); } 
-		if(!book){res.render404('该书籍不存在或已被删除');}
+		if(!book){return res.render404('该书籍不存在或已被删除');}
 		else{
-			// TBD: get related topic 
-			res.render('book/detail',{book:book});
+	    TopicProxy.getSomeForBook(ISBN, page, type, function( topics){ 
+	      if(topics){
+	        var total_page = 0;
+	        if(topics){
+	          total_page = Math.ceil(topics.length/config.cnt.main_lists); 
+	        }    
+	      }  
+	      return res.render('book/detail',{
+	      	book:book,
+	        topics: topics,
+	        current_page: page, 
+	        // tops: tops, 
+	        total_page: total_page,
+	        home_type: type 
+	      });    
+	    });	 
 		}
 	});
 } 
@@ -34,27 +50,28 @@ exports.getedit = function (req, res, next) {
 	// find book by id  
 	BookProxy.getOneByISBN(ISBN, function(err, book){
 		if(err) { return next(err); } 
-		if(!book){res.render404('编辑失败 该书籍不存在或已被删除');}
+		if(!book){return res.render404('编辑失败 该书籍不存在或已被删除');}
 		else{
-			res.render('book/edit',{book:book, title:'修改书籍', post_type:'edit'});
+			return res.render('book/edit',{book:book, title:'修改书籍', post_type:'edit'});
 		}
 	});	 
 }
 
 exports.create = function (req, res, next) { 
 	// get value from req.body
+	var tempObj = req.body;
 	var bookObj = {
-		name 				: req.body.name.trim(),  
-  	subname 		: req.body.subname.trim(),
-	  originname	: req.body.originname.trim(),
-	  ISBN 				: req.body.ISBN.trim(),
-	  author 			: req.body.author.trim(),
-	  translator	: req.body.translator.trim(),
-	  publisher 	: req.body.publisher.trim(), 
-	  publishdate : req.body.publishdate.trim(),
-	  intro 			: req.body.intro.trim(),   
-	  authorintro : req.body.authorintro.trim(),  
-	  catalog 		: req.body.catalog.trim()
+		name 				: tempObj.name.trim(),  
+  	subname 		: tempObj.subname.trim(),
+	  originname	: tempObj.originname.trim(),
+	  ISBN 				: tempObj.ISBN.trim(),
+	  author 			: tempObj.author.trim(),
+	  translator	: tempObj.translator.trim(),
+	  publisher 	: tempObj.publisher.trim(), 
+	  publishdate : tempObj.publishdate.trim(),
+	  intro 			: tempObj.intro.trim(),   
+	  authorintro : tempObj.authorintro.trim(),  
+	  catalog 		: tempObj.catalog.trim()
 	};
 	// console.log("controller book create " + bookObj.ISBN);
 	// check if it's ok to creat 
@@ -66,7 +83,7 @@ exports.create = function (req, res, next) {
 		    res.redirect('book/item/'+book.ISBN ); 
 			});			
 		}else{  // 存在
-			res.render('book/edit',{ book:bookObj, title:'添加书籍', post_type:'create', error:'已存在该书!'}); 
+			return res.render('book/edit',{ book:bookObj, title:'添加书籍', post_type:'create', error:'已存在该书!'}); 
 		}
 	});
 
@@ -74,28 +91,30 @@ exports.create = function (req, res, next) {
 
 exports.edit = function (req, res, next) { 
 	// get value from req.body
+	var tempObj = req.body;
 	var bookObj = {
-		name 				: req.body.name.trim(),  
-  	subname 		: req.body.subname.trim(),
-	  originname	: req.body.originname.trim(),
-	  ISBN 				: req.body.ISBN.trim(),
-	  author 			: req.body.author.trim(),
-	  translator	: req.body.translator.trim(),
-	  publisher 	: req.body.publisher.trim(), 
-	  publishdate : req.body.publishdate.trim(),
-	  intro 			: req.body.intro.trim(),   
-	  authorintro : req.body.authorintro.trim(),  
-	  catalog 		: req.body.catalog.trim()
+		name 				: tempObj.name.trim(),  
+  	subname 		: tempObj.subname.trim(),
+	  originname	: tempObj.originname.trim(),
+	  ISBN 				: tempObj.ISBN.trim(),
+	  author 			: tempObj.author.trim(),
+	  translator	: tempObj.translator.trim(),
+	  publisher 	: tempObj.publisher.trim(), 
+	  publishdate : tempObj.publishdate.trim(),
+	  intro 			: tempObj.intro.trim(),   
+	  authorintro : tempObj.authorintro.trim(),  
+	  catalog 		: tempObj.catalog.trim()
 	};
 	// check if it's ok to edit 
-	BookProxy.getOneByISBN(bookObj.ISBN, function(err, book){
+	BookProxy.getOneByISBN(bookObj.ISBN, function(err, book){ 
 		if (err) { return next(err);  } 
 		if(!book){ // 不存在 
-			res.render404('编辑失败 该书籍不存在或已被删除');	
-		}else{  // 存在
-			BookProxy.update(book, bookObj,function(err){
-				if(err) return next(err);
-				res.redirect('book/item/'+book.ISBN );  
+			return res.render404('编辑失败 该书籍不存在或已被删除');	
+		}else{  // 存在 
+			BookProxy.update(book, bookObj,function(err){ 
+				if(err) return next(err); 
+				// console.log(book.ISBN);
+				return res.redirect('/book/item/'+book.ISBN );  
 			});   
 		}
 	});	  

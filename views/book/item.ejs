@@ -12,12 +12,14 @@
       <%=str_originname%>
       </a></li>
       <li><small>
-      <% var str_mix=book.author; 
-        if(book.translator.length>0)  str_mix+=' / '+book.translator; 
-        if(book.publisher.length>0)   str_mix+=' / '+book.publisher;
-        if(book.publishdate.length>0) str_mix+=' / '+book.publishdate; %>
-      <%=str_mix%>  
-      </small></li>  
+      <% var str_mix1=book.author; 
+        if(book.translator.length>0)  str_mix1+=' / '+book.translator;
+        var str_mix2 = '';
+        if(book.publisher.length>0)   str_mix2+=book.publisher;
+        if(book.publishdate.length>0) str_mix2+=' / '+book.publishdate; %>
+      <%=str_mix1%>  
+      </small></li> 
+      <li><small><%=str_mix2%></small></li> 
       <li>ISBN:<%= book.ISBN %></li> 
       <li>简介:
       <% var str_intro = book.intro; 

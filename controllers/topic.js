@@ -13,11 +13,11 @@ exports.gettopic = function (req, res, next) {
   // find topic and its author and replies 
   TopicProxy.getOneByID(id, function(err, topic){  // get topic  
   	if(!topic){
-  		res.render404('文章不存在或者已删除');
+  		return res.render404('文章不存在或者已删除');
   	} else { 
   		topic.cnt_visit++;
   		topic.save(function(err){
-  			res.render('topic/detail',{ topic : topic });   
+  			return res.render('topic/detail',{ topic : topic });   
   		}); 
   	}
   }); 
@@ -30,7 +30,7 @@ exports.getcreate = function (req, res, next) {
 
 	} 
 	// var topic = {};
-  res.render('topic/edit',{
+  return res.render('topic/edit',{
   	post_type:'create',
   	// topic : topic,
   	topic_type : type,
@@ -52,7 +52,7 @@ exports.create = function (req, res, next) {
 	// create
 	TopicProxy.newAndSave(topicObj, function(err,topic){
 		if(err) return next(err); 
-		res.redirect('/topic/item/' + topic._id);
+		return res.redirect('/topic/item/' + topic._id);
 	}); 
 }
 
@@ -61,7 +61,7 @@ exports.update_state = function (req, res, next) {
 	var topic_id = req.body.topic_id; 
 	TopicProxy.getOneByID(topic_id, function(err, topic){
 		if(topic.author_id != author_id){
-			res.render404('你不是该贴作者,没有修改状态的权限');
+			return res.render404('你不是该贴作者,没有修改状态的权限');
 		}
 		console.log('before '+topic);
 		if(topic.valid_time > 0){
@@ -74,7 +74,7 @@ exports.update_state = function (req, res, next) {
 			console.log('after ' + topic);
 			console.log('topic ddl ' + topic.valid_ddl);
 			if(err) return next(err);
-			res.redirect('/topic/item/' + topic._id);			
+			return res.redirect('/topic/item/' + topic._id);			
 		});
 		// TopicProxy.update_state(topic_id,function(err){
 		// 	if(err) return next(err);

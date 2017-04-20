@@ -52,7 +52,7 @@ exports.getOneByID = function(id, callback){
    	
   }); 
 }
- 
+
 exports.getSomeForHomePage = function (page, type, callback) {   
 	var map = {
 		deleted : false,
@@ -82,9 +82,9 @@ exports.getSomeForHomePage = function (page, type, callback) {
 			   	if(topic.last_reply_id){ 
 			   		ReplyProxy.getOneByID(topic.last_reply_id, function(reply){  // this include reply.author 
 			   			topic.last_reply = reply;  
-			   			console.log("topic  and it last " + topic);
-			   			console.log("its last " + reply);
-			   			console.log("its author " + reply.author);
+			   			// console.log("topic  and it last " + topic);
+			   			// console.log("its last " + reply);
+			   			// console.log("its author " + reply.author);
 			   			ep.emit('topic',topic);
 			   		});
 			   	}else{ 
@@ -100,9 +100,54 @@ exports.getSomeForHomePage = function (page, type, callback) {
   });    
 }
 
-exports.getSomeForBook = function( ){
-	// by time,limit order by create time
+exports.getSomeForBook = function (ISBN, page, type, callback) {   
+	var map = {
+		deleted : false,
+		type : type,
+		book_ISBNs: {"$all":[ISBN]}
+	};
+  var field = {};
+	var limit = config.cnt.main_topics;
+	var ops = {
+		skip	: (page-1) * limit,
+		limit : limit,
+		sort	: {update:-1}
+	};
+  Topic.find(map, field ,ops, function(err,topics){ 
+  	if(topics){
+  		var ep = new eventproxy();
+  		ep.fail(callback);
+  		ep.after('topic',topics.length,function(topics){
+  			callback(topics);
+
+  		});
+	  	topics.forEach(function(topic){ 
+		   	UserProxy.getOneByID(topic.author_id,function(err,user){
+		   		// if(!err){ return callback([]) };
+		   		// if(!user){ return callback(null,null)}
+		   		topic.author = user;
+			   	// reply may be null 
+			   	if(topic.last_reply_id){ 
+			   		ReplyProxy.getOneByID(topic.last_reply_id, function(reply){  // this include reply.author 
+			   			topic.last_reply = reply;  
+			   			// console.log("topic  and it last " + topic);
+			   			// console.log("its last " + reply);
+			   			// console.log("its author " + reply.author);
+			   			ep.emit('topic',topic);
+			   		});
+			   	}else{ 
+			   		topic.last_reply = null;  
+			   		ep.emit('topic',topic);
+			   	}
+		   	}); 
+	  	});
+  	}else{
+  		callback([]);
+  	} 
+  	
+  });    
 }
+
 
 // for user home page
 exports.getSomeByAuthor = function( ){

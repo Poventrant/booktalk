@@ -9,7 +9,7 @@ var User           = require('../proxy').User;
   
 
 exports.getsignup = function (req, res, next) {  
-  res.render('sign/signup' ); 
+  return res.render('sign/signup' ); 
 }
 
 exports.signup = function (req, res, next) {  
@@ -20,13 +20,13 @@ exports.signup = function (req, res, next) {
   ep.fail(next);
   ep.on('err', function (msg) {
     // res.status(422);
-    res.render('sign/signup', {error: msg});
+    return res.render('sign/signup', {error: msg});
   });  
 
   ep.all('ok_account','ok_name',function(){ 
     User.newAndSave(account, name, password, function (err) {
       if (err) { return next(err);  } 
-      res.render('sign/signup',{ success: '注册成功!' }); 
+      return res.render('sign/signup',{ success: '注册成功!' }); 
     });  
   });
 
@@ -43,12 +43,13 @@ exports.signup = function (req, res, next) {
 }
 
 exports.getsignin = function (req, res, next) {  
-  res.render('sign/signin' ); 
+  return res.render('sign/signin' ); 
 }
 
 exports.signin = function (req, res, next) {
   var account 	= req.body.account; 
   var password  = req.body.password; 
+  var remenber  = req.body.remenber;
   var ep       = new eventproxy();
 
   ep.fail(next);
@@ -59,7 +60,12 @@ exports.signin = function (req, res, next) {
   }); 
 
   ep.all('check_account','user',function(check_account, user){ 
-    authMiddleWare.gen_session(user, res); // 将该用户写入session 
+    if(remenber){
+      authMiddleWare.gen_session(user, res); // 将该用户写入session 
+    }else{
+      req.session.user = user;
+    }
+    
     return res.redirect('/'); // 跳转到首页 
   });
 
@@ -79,21 +85,23 @@ exports.signin = function (req, res, next) {
 exports.signout = function(req, res, next) {   
   req.session.destroy(); 
   res.clearCookie(config.cookie.auth_name, { path: '/' }); 
-  res.redirect('/');
+  return res.redirect('/');
 }
 
 
 exports.getsetting = function(req, res, next) { 
-  res.render('user/setting' );
+  return res.render('user/setting' );
 }
 
 exports.setting = function(req, res, next) {
-  var wechat = req.body.wechat,
-  	QQ = req.body.QQ,
-  	email = req.body.email,
-		address = req.body.address,
-		signature = req.body.signature;
-		account = req.body.account;  
+  console.log('c user setting: '+ res) ;
+  var tempObj = req.body;
+  var wechat = tempObj.wechat,
+  	QQ = tempObj.QQ,
+  	email = tempObj.email,
+		address = tempObj.address,
+		signature = tempObj.signature;
+		account = tempObj.account;  
 	User.updateInfo(account, wechat, QQ, email, address, signature, function(err, user){
 		if(err) return next(err); 
     req.session.user = user;
@@ -118,9 +126,9 @@ exports.change_password = function(req, res, next){
 	User.updatePassword(account, oldpass, newpass, function(err, user){
 		if(err) return next(err); 
 		if(!user){
-			res.render('user/setting',{perror:'原密码错误'});
+			return res.render('user/setting',{perror:'原密码错误'});
 		}else{  
-			res.render('user/setting',{psuccess:'密码修改成功'});  
+			return res.render('user/setting',{psuccess:'密码修改成功'});  
 		} 
 	});
 }
@@ -130,10 +138,10 @@ exports.gethomepage = function(req, res, next) {
 	User.getOneByName(name,function(err, user){
 		if (err) { return next(err); }
     if (!user) {
-      res.render404('该用户不存在');
+      return res.render404('该用户不存在');
       return;
     }else{
-    	res.render('user/home',{user:user});	
+    	return res.render('user/home',{user:user});	
     }
 	}); 
 }

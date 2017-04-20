@@ -8,7 +8,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 						 	<h3 class="panel-title">
-                 错误通知
+                 错误提示
               </h3> 
 						</div>
 						<div class="panel-body">
@@ -22,7 +22,9 @@
 				        <strong><%= success %></strong>
 				      </div>
 				      <% } %>
-				      <a href="<%- typeof(referer) !== 'undefined' ? referer : '/' %>"><span class="span-common">返回</span></a>
+				      <a href="<%- typeof(referer) !== 'undefined' ? referer : '/' %>">
+				      	<input type="submit" name="change" class="btn btn-primary" value="返回" />
+			      	</a> 
 						</div> 
 					</div>  
 				</div>
